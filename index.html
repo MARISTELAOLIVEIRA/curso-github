@@ -165,13 +165,16 @@
     <!-- ===================== 2. CONTA ===================== -->
     <section class="modulo" id="m2" data-titulo="Criando sua conta" data-icone="👤">
       <header class="modulo-topo reveal">
-        <span class="modulo-num">Módulo 2</span><span class="modulo-tempo">⏱️ 15 min</span>
+        <span class="modulo-num">Módulo 2</span><span class="modulo-tempo">⏱️ 25 min</span>
         <h2>Criando sua <span class="hl">conta</span></h2>
       </header>
 
+      <p class="reveal">São quatro etapas: criar a conta, proteger com a verificação em duas etapas, ligar o e-mail da faculdade e pedir os benefícios de estudante.</p>
+
+      <h3 class="reveal">1. Crie a conta</h3>
       <ol class="passos reveal">
         <li><b>Acesse <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a></b></li>
-        <li><b>Use um e-mail pessoal</b> que você vai ter para sempre (o institucional pode ser desativado quando você se formar). Depois, adicione também o e-mail da faculdade nas configurações.</li>
+        <li><b>Use um e-mail pessoal</b> que você vai ter para sempre (o institucional pode ser desativado quando você se formar). O e-mail da faculdade entra depois, na etapa 3.</li>
         <li><b>Crie uma senha forte</b> e escolha seu <b>nome de usuário</b> (teste abaixo 👇)</li>
         <li><b>Confirme o e-mail</b> com o código que o GitHub enviar</li>
         <li>Escolha o plano <b>Free</b>. É gratuito e tem tudo o que você precisa</li>
@@ -184,7 +187,47 @@
         <ul class="checagens" id="user-checagens"></ul>
       </div>
 
-      <h3 class="reveal">Deixe o perfil com cara de profissional</h3>
+      <h3 class="reveal">2. Ative a verificação em duas etapas 🔐</h3>
+      <p class="reveal">Com ela, além da senha, o GitHub pede um código que só o seu celular tem. Mesmo que alguém descubra a sua senha, não entra na sua conta.</p>
+      <ol class="passos reveal">
+        <li>Instale no celular um <b>app autenticador</b> (por exemplo, Google Authenticator ou Microsoft Authenticator)</li>
+        <li>No GitHub, clique na sua <b>foto</b> (canto superior direito) → <b>Settings</b></li>
+        <li>No menu da esquerda, em <i>Access</i>: <b>Password and authentication</b></li>
+        <li>Clique em <b>Enable two-factor authentication</b></li>
+        <li>Abra o app autenticador e <b>escaneie o QR code</b> que aparece na tela</li>
+        <li>Digite no GitHub o <b>código de 6 dígitos</b> que aparece no app</li>
+        <li>Em <i>Save your recovery codes</i>, clique em <b>Download</b> e depois em <b>I have saved my recovery codes</b></li>
+      </ol>
+      <div class="dica alerta reveal">
+        <span>🗝️</span>
+        <p><b>Guarde os códigos de recuperação fora do celular</b> (no computador, no e-mail ou impressos). Se você perder ou trocar o celular, eles são a única forma de entrar de novo na conta.</p>
+      </div>
+
+      <h3 class="reveal">3. Adicione o e-mail da faculdade 🎓</h3>
+      <p class="reveal">É ele que comprova para o GitHub que você é estudante. O e-mail pessoal continua sendo o principal.</p>
+      <ol class="passos reveal">
+        <li>Na sua <b>foto</b> → <b>Settings</b> → no menu da esquerda, <b>Emails</b></li>
+        <li>Em <b>Add email address</b>, digite o seu <b>e-mail institucional</b> e clique em <b>Add</b></li>
+        <li>Abra a caixa de entrada do e-mail da faculdade e clique no <b>link de confirmação</b> que o GitHub enviou</li>
+        <li>Volte em <b>Emails</b> e confira: o e-mail da faculdade deve aparecer <b>sem</b> o aviso <i>Unverified</i></li>
+      </ol>
+
+      <h3 class="reveal">4. Peça os benefícios de estudante 🎁</h3>
+      <p class="reveal">Estudantes ganham de graça o <b>GitHub Pro</b>, o <b>GitHub Copilot</b> (o assistente de programação com IA) e várias ferramentas profissionais.</p>
+      <ol class="passos reveal">
+        <li>Acesse <a href="https://github.com/settings/education/benefits" target="_blank" rel="noopener">github.com/settings/education/benefits</a> e clique em <b>Start an application</b></li>
+        <li>Escolha <b>Student</b> e selecione o <b>e-mail da faculdade</b> que você adicionou na etapa 3</li>
+        <li>Informe a faculdade: <b>Faculdade de Tecnologia e Inovação Senac DF</b></li>
+        <li>Envie um <b>comprovante de matrícula</b> com a data atual: foto da carteirinha, comprovante de matrícula ou grade horária</li>
+        <li>Clique em <b>Submit application</b> e aguarde o e-mail de aprovação</li>
+      </ol>
+      <div class="dica reveal">
+        <span>⏳</span>
+        <p>A análise pode levar <b>alguns dias</b>. Depois de aprovado, os benefícios aparecem em <a href="https://github.com/education" target="_blank" rel="noopener">github.com/education</a>.
+        Se o pedido for <b>recusado</b>, leia o motivo no e-mail: quase sempre é o comprovante sem data ou ilegível. Tire outra foto e envie de novo.</p>
+      </div>
+
+      <h3 class="reveal">Por fim: deixe o perfil com cara de profissional</h3>
       <div class="perfil-mock reveal">
         <div class="perfil-foto">🙂</div>
         <div>
@@ -196,16 +239,10 @@
         <ul class="perfil-dicas">
           <li>📷 Foto: pode ser você ou um avatar (memoji vale! 😉)</li>
           <li>✍️ Nome completo e uma bio curta: curso + o que você gosta de fazer</li>
-          <li>🔐 O GitHub vai pedir a <b>verificação em duas etapas</b>. Use um app autenticador no celular e <b>guarde os códigos de recuperação</b></li>
+          <li>📍 Localização e um link (LinkedIn, por exemplo), se quiser</li>
         </ul>
       </div>
 
-      <div class="dica reveal">
-        <span>🎁</span>
-        <p><b>GitHub Student Developer Pack:</b> estudantes podem pedir, de graça, o pacote de benefícios em
-          <a href="https://education.github.com/pack" target="_blank" rel="noopener">education.github.com/pack</a>
-          (inclusive o GitHub Copilot). Use o e-mail da faculdade e um comprovante de matrícula.</p>
-      </div>
 
       <div class="quiz" data-quiz="m2"></div>
       <button class="btn-concluir" data-modulo="m2">✔ Concluir módulo</button>
@@ -257,6 +294,16 @@
         <span>✍️</span>
         <p><b>Mensagem de commit boa</b> diz <i>o que mudou</i>: "Adiciona formulário de contato", "Corrige o cálculo da média".<br>
         Mensagem ruim: "update", "asdf", "agora vai". Daqui a um mês, você não vai lembrar o que foi! 😅</p>
+      </div>
+
+
+      <div class="pratica reveal">
+        <img src="assets/memoji.png" alt="">
+        <div>
+          <b>🏋️ Agora pratique de verdade, com correção automática</b>
+          <p>No curso prático <i>Minha primeira entrega</i>, você faz tudo no seu próprio GitHub e eu acompanho cada passo: confiro a tarefa, dou o feedback e libero o próximo. Uns 15 minutos.</p>
+        </div>
+        <a class="btn btn-primario" href="https://github.com/MARISTELAOLIVEIRA/primeira-entrega" target="_blank" rel="noopener">Começar a prática →</a>
       </div>
 
       <div class="quiz" data-quiz="m3"></div>
@@ -491,6 +538,7 @@ venv/</code></pre>
         <div class="final-estrela"><img src="assets/estrela.png" alt=""></div>
         <h2>Curso concluído! 🎉</h2>
         <p>Agora é com você: cada projeto novo, um repositório novo. Seu portfólio começa hoje.</p>
+        <p>Ainda não fez a prática com correção automática? <a href="https://github.com/MARISTELAOLIVEIRA/primeira-entrega" target="_blank" rel="noopener">Faça a <b>Minha primeira entrega</b></a> ⭐</p>
       </div>
     </section>
   </main>

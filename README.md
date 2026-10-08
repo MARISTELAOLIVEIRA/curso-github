@@ -8,8 +8,8 @@ Profª Maristela Oliveira (Stela).
 | | Módulo | Interatividade |
 |---|---|---|
 | 1 | Por que GitHub? | "Viagem no tempo" pelos commits + quiz |
-| 2 | Criando sua conta | Verificador de nome de usuário + quiz |
-| 3 | Primeiro repositório | Simulação de upload e commit pelo site + quiz |
+| 2 | Criando sua conta | Conta, verificação em duas etapas, e-mail da faculdade e benefícios de estudante (GitHub Pro e Copilot) + verificador de nome de usuário + quiz |
+| 3 | Primeiro repositório | Simulação de upload e commit pelo site + link para a prática com correção automática ([primeira-entrega](https://github.com/MARISTELAOLIVEIRA/primeira-entrega)) + quiz |
 | 4 | Git + VS Code | Simulador de terminal com missões (`add`, `commit`, `push`, `log`) + quiz |
 | 5 | README caprichado | Gerador de README com pré-visualização ao vivo + quiz |
 | 6 | GitHub Pages | Montador do link do site + quiz |
