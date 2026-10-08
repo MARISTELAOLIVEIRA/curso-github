@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curso de GitHub · Profª Maristela Oliveira</title>
+  <meta name="description" content="Curso interativo de GitHub: do zero ao seu portfólio, para entregar os projetos das disciplinas.">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="so-win">
+  <!--
+    GUIA RÁPIDO PARA EDITAR
+    - Cada módulo é uma <section class="modulo" id="mN" data-titulo="...">.
+    - Textos: mude direto aqui.
+    - Trechos só de Windows ou só de Mac: <span class="so-win">...</span> e <span class="so-mac">...</span>
+      (a chave Windows/Mac do menu mostra um e esconde o outro).
+    - Perguntas dos quizzes, regras de entrega e cenário do simulador: js/main.js ("PARA EDITAR").
+    - Cores: variáveis no topo do css/style.css.
+  -->
+
+  <!-- fundo animado e confete -->
+  <canvas id="fundo" aria-hidden="true"></canvas>
+  <canvas id="confete" aria-hidden="true"></canvas>
+
+  <!-- selo da professora (canto superior direito, em todas as telas) -->
+  <a class="professora" href="#m0" aria-label="Profª Maristela Oliveira (Stela). Ir para o início">
+    <span class="prof-avatar">
+      <span class="prof-flip">
+        <img class="prof-face" src="assets/memoji.png" alt="">
+        <img class="prof-face prof-verso" src="assets/estrela.png" alt="">
+      </span>
+    </span>
+    <span class="prof-texto">
+      <b>Profª Maristela Oliveira</b>
+      <small>pode chamar de Stela 😉</small>
+    </span>
+  </a>
+
+  <!-- botão do menu (só no celular) -->
+  <button class="btn-menu" id="btn-menu" aria-label="Abrir o menu de módulos" aria-expanded="false">☰ Módulos</button>
+
+  <!-- ===================== MENU LATERAL ===================== -->
+  <aside class="lateral" id="lateral">
+    <div class="marca">
+      <img class="marca-icone" src="assets/estrela.png" alt="">
+      <div><b>Curso de GitHub</b><small>do zero ao portfólio</small></div>
+    </div>
+
+    <div class="progresso-geral">
+      <svg viewBox="0 0 36 36" class="anel" aria-hidden="true">
+        <circle cx="18" cy="18" r="15.9" class="anel-fundo"></circle>
+        <circle cx="18" cy="18" r="15.9" class="anel-valor" id="anel-valor"></circle>
+      </svg>
+      <div><b id="progresso-texto">0%</b><small>do curso concluído</small></div>
+    </div>
+
+    <nav class="indice" id="indice" aria-label="Módulos do curso"></nav>
+
+    <div class="so-chave" role="group" aria-label="Sistema do seu computador">
+      <span>Meu computador:</span>
+      <button data-so="win" class="ativo">🪟 Windows</button>
+      <button data-so="mac">🍎 Mac</button>
+    </div>
+    <button class="zerar" id="zerar">↺ recomeçar o progresso</button>
+  </aside>
+
+  <main id="conteudo">
+
+    <!-- ===================== 0. BOAS-VINDAS ===================== -->
+    <section class="modulo capa" id="m0" data-titulo="Boas-vindas" data-icone="👋">
+      <p class="kicker reveal">Faculdade de Tecnologia e Inovação Senac DF</p>
+      <h1 class="reveal" style="--d:.1s">Do zero ao seu <span class="hl">portfólio</span> no GitHub</h1>
+      <p class="subtitulo reveal" style="--d:.2s">
+        Todo projeto das disciplinas vai morar no GitHub. Neste curso você aprende,
+        passo a passo, a criar sua conta, publicar seus projetos e deixar tudo com cara de profissional.
+      </p>
+
+      <div class="capa-grid reveal" style="--d:.3s">
+        <div class="janela-git" aria-hidden="true">
+          <div class="janela-barra"><i></i><i></i><i></i><span>historico do projeto</span></div>
+          <ul class="mini-log" id="mini-log"></ul>
+        </div>
+        <div class="capa-info">
+          <div class="info-item"><span>⏱️</span><div><b>~2 horas</b><small>no seu ritmo, em quantas vezes quiser</small></div></div>
+          <div class="info-item"><span>💾</span><div><b>Progresso salvo</b><small>neste navegador, automaticamente</small></div></div>
+          <div class="info-item"><span>🧪</span><div><b>Pratique sem medo</b><small>simuladores e quizzes em todos os módulos</small></div></div>
+          <a href="#m1" class="btn btn-primario magnetico">Começar o curso →</a>
+        </div>
+      </div>
+
+      <h2 class="reveal" style="--d:.1s">O que você vai aprender</h2>
+      <div class="trilha" id="trilha"></div>
+    </section>
+
+    <!-- ===================== 1. POR QUE GITHUB ===================== -->
+    <section class="modulo" id="m1" data-titulo="Por que GitHub?" data-icone="🤔" data-tempo="10 min">
+      <header class="modulo-topo reveal">
+        <span class="modulo-num">Módulo 1</span><span class="modulo-tempo">⏱️ 10 min</span>
+        <h2>Por que usar o <span class="hl">GitHub</span>?</h2>
+      </header>
+
+      <div class="duas-colunas">
+        <div class="cartao reveal">
+          <h3>😱 Sem controle de versões</h3>
+          <ul class="pasta-caos">
+            <li>📦 projeto_final.zip</li>
+            <li>📦 projeto_final_v2.zip</li>
+            <li>📦 projeto_final_v2_corrigido.zip</li>
+            <li>📦 projeto_final_AGORA_VAI.zip</li>
+            <li>📦 projeto_final_AGORA_VAI_2 (1).zip</li>
+          </ul>
+          <p class="nota">Qual é a versão certa? O que mudou de uma para outra? 🤷</p>
+        </div>
+        <div class="cartao reveal" style="--d:.15s">
+          <h3>😎 Com Git e GitHub</h3>
+          <p>Cada mudança vira um <b>commit</b>: uma "foto" do projeto com data, autor e uma mensagem. <b>Clique nos commits</b> e viaje no tempo:</p>
+          <div class="viagem">
+            <ol class="viagem-commits" id="viagem-commits"></ol>
+            <pre class="viagem-arquivo" id="viagem-arquivo"></pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="reveal">Git ≠ GitHub</h3>
+      <div class="duas-colunas">
+        <div class="cartao destaque-git tilt reveal">
+          <span class="grande-emoji">📸</span>
+          <h3>Git</h3>
+          <p>O <b>programa</b> que fica no seu computador e tira as "fotos" (commits) do seu projeto.</p>
+          <small>Como a câmera do celular.</small>
+        </div>
+        <div class="cartao destaque-hub tilt reveal" style="--d:.15s">
+          <span class="grande-emoji">☁️</span>
+          <h3>GitHub</h3>
+          <p>O <b>site</b> que guarda essas fotos na nuvem e mostra seus projetos para o mundo.</p>
+          <small>Como o álbum online onde você publica as fotos.</small>
+        </div>
+      </div>
+
+      <h3 class="reveal">Por que isso importa para você</h3>
+      <div class="quatro-colunas">
+        <div class="mini-cartao reveal"><span>💼</span><b>Portfólio</b><small>Recrutadores olham o GitHub antes da entrevista</small></div>
+        <div class="mini-cartao reveal" style="--d:.1s"><span>🛟</span><b>Backup</b><small>O notebook quebrou? Seu projeto está salvo</small></div>
+        <div class="mini-cartao reveal" style="--d:.2s"><span>🤝</span><b>Equipe</b><small>Vários colegas no mesmo projeto, sem bagunça</small></div>
+        <div class="mini-cartao reveal" style="--d:.3s"><span>📚</span><b>Entregas</b><small>Os projetos das disciplinas são entregues por aqui</small></div>
+      </div>
+
+      <h3 class="reveal">Mini dicionário</h3>
+      <dl class="glossario reveal">
+        <div><dt>Repositório</dt><dd>A "pasta" do projeto no GitHub, com todo o histórico.</dd></div>
+        <div><dt>Commit</dt><dd>Uma "foto" das mudanças, com uma mensagem explicando o que mudou.</dd></div>
+        <div><dt>Push</dt><dd>Enviar os commits do seu computador para o GitHub.</dd></div>
+        <div><dt>Clone</dt><dd>Baixar um repositório do GitHub para o seu computador.</dd></div>
+        <div><dt>README</dt><dd>A "capa" do projeto: o texto que aparece na página do repositório.</dd></div>
+      </dl>
+
+      <div class="quiz" data-quiz="m1"></div>
+      <button class="btn-concluir" data-modulo="m1">✔ Concluir módulo</button>
+    </section>
+
+    <!-- ===================== 2. CONTA ===================== -->
+    <section class="modulo" id="m2" data-titulo="Criando sua conta" data-icone="👤">
+      <header class="modulo-topo reveal">
+        <span class="modulo-num">Módulo 2</span><span class="modulo-tempo">⏱️ 15 min</span>
+        <h2>Criando sua <span class="hl">conta</span></h2>
+      </header>
+
+      <ol class="passos reveal">
+        <li><b>Acesse <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a></b></li>
+        <li><b>Use um e-mail pessoal</b> que você vai ter para sempre (o institucional pode ser desativado quando você se formar). Depois, adicione também o e-mail da faculdade nas configurações.</li>
+        <li><b>Crie uma senha forte</b> e escolha seu <b>nome de usuário</b> (teste abaixo 👇)</li>
+        <li><b>Confirme o e-mail</b> com o código que o GitHub enviar</li>
+        <li>Escolha o plano <b>Free</b>. É gratuito e tem tudo o que você precisa</li>
+      </ol>
+
+      <div class="cartao ferramenta reveal">
+        <h3>🔎 Teste seu nome de usuário</h3>
+        <p>Ele vai aparecer no link de todos os seus projetos: <code>github.com/<b id="user-preview">seu-nome</b></code></p>
+        <input type="text" id="user-input" placeholder="ex.: maria-silva" maxlength="45" autocomplete="off" spellcheck="false" aria-label="Nome de usuário">
+        <ul class="checagens" id="user-checagens"></ul>
+      </div>
+
+      <h3 class="reveal">Deixe o perfil com cara de profissional</h3>
+      <div class="perfil-mock reveal">
+        <div class="perfil-foto">🙂</div>
+        <div>
+          <b>Maria Silva</b>
+          <span class="perfil-user">maria-silva</span>
+          <p>Estudante de Análise e Desenvolvimento de Sistemas na Faculdade Senac DF · Python, HTML e CSS</p>
+          <small>📍 Brasília, DF</small>
+        </div>
+        <ul class="perfil-dicas">
+          <li>📷 Foto: pode ser você ou um avatar (memoji vale! 😉)</li>
+          <li>✍️ Nome completo e uma bio curta: curso + o que você gosta de fazer</li>
+          <li>🔐 O GitHub vai pedir a <b>verificação em duas etapas</b>. Use um app autenticador no celular e <b>guarde os códigos de recuperação</b></li>
+        </ul>
+      </div>
+
+      <div class="dica reveal">
+        <span>🎁</span>
+        <p><b>GitHub Student Developer Pack:</b> estudantes podem pedir, de graça, o pacote de benefícios em
+          <a href="https://education.github.com/pack" target="_blank" rel="noopener">education.github.com/pack</a>
+          (inclusive o GitHub Copilot). Use o e-mail da faculdade e um comprovante de matrícula.</p>
+      </div>
+
+      <div class="quiz" data-quiz="m2"></div>
+      <button class="btn-concluir" data-modulo="m2">✔ Concluir módulo</button>
+    </section>
+
+    <!-- ===================== 3. PRIMEIRO REPOSITÓRIO ===================== -->
+    <section class="modulo" id="m3" data-titulo="Primeiro repositório" data-icone="📁">
+      <header class="modulo-topo reveal">
+        <span class="modulo-num">Módulo 3</span><span class="modulo-tempo">⏱️ 15 min</span>
+        <h2>Seu primeiro <span class="hl">repositório</span> (pelo site)</h2>
+      </header>
+      <p class="reveal">Dá para publicar um projeto <b>sem instalar nada</b>, só pelo navegador. É o jeito mais rápido de começar.</p>
+
+      <ol class="passos reveal">
+        <li>No GitHub, clique no <b>+</b> (canto superior direito) → <b>New repository</b></li>
+        <li><b>Repository name:</b> o nome do projeto (teste abaixo 👇)</li>
+        <li><b>Description:</b> uma frase sobre o projeto</li>
+        <li>Deixe <b>Public</b> marcado e ative <b>Add README</b></li>
+        <li>Clique em <b>Create repository</b> 🎉</li>
+      </ol>
+
+      <div class="cartao ferramenta reveal">
+        <h3>🏷️ Teste o nome do repositório</h3>
+        <input type="text" id="repo-input" placeholder="ex.: Projeto Final de Programação Web" autocomplete="off" spellcheck="false" aria-label="Nome do repositório">
+        <div class="repo-saidas">
+          <div><small>O GitHub vai salvar como:</small><code id="repo-github">—</code></div>
+          <div><small>Nossa sugestão (minúsculas e hífens):</small><code id="repo-sugestao" class="ok">—</code></div>
+        </div>
+      </div>
+
+      <h3 class="reveal">Enviando os arquivos: <span class="hl">Add file → Upload files</span></h3>
+      <p class="reveal">Experimente: <b>arraste</b> os arquivos do seu computador para o repositório (ou clique neles), escreva a mensagem do commit e confirme.</p>
+      <div class="upload-sim reveal" id="upload-sim">
+        <div class="upload-pc">
+          <div class="upload-titulo">💻 Seu computador</div>
+          <div class="upload-arquivos" id="upload-pc"></div>
+        </div>
+        <div class="upload-repo">
+          <div class="upload-titulo">☁️ github.com/<span class="user-nome">seu-nome</span>/meu-projeto</div>
+          <div class="upload-zona" id="upload-zona"><p>Solte os arquivos aqui</p></div>
+          <label for="upload-msg">Mensagem do commit</label>
+          <input type="text" id="upload-msg" placeholder="ex.: Adiciona a página inicial" autocomplete="off">
+          <button class="btn btn-primario" id="upload-commit" disabled>Commit changes</button>
+          <ul class="upload-lista" id="upload-lista"></ul>
+        </div>
+      </div>
+
+      <div class="dica reveal">
+        <span>✍️</span>
+        <p><b>Mensagem de commit boa</b> diz <i>o que mudou</i>: "Adiciona formulário de contato", "Corrige o cálculo da média".<br>
+        Mensagem ruim: "update", "asdf", "agora vai". Daqui a um mês, você não vai lembrar o que foi! 😅</p>
+      </div>
+
+      <div class="quiz" data-quiz="m3"></div>
+      <button class="btn-concluir" data-modulo="m3">✔ Concluir módulo</button>
+    </section>
+
+    <!-- ===================== 4. GIT + VS CODE ===================== -->
+    <section class="modulo" id="m4" data-titulo="Git + VS Code" data-icone="💻">
+      <header class="modulo-topo reveal">
+        <span class="modulo-num">Módulo 4</span><span class="modulo-tempo">⏱️ 30 min</span>
+        <h2>Git no <span class="hl">VS Code</span>: o dia a dia</h2>
+      </header>
+      <p class="reveal">O upload pelo site é ótimo para começar. Mas, no dia a dia, você programa no VS Code e envia as mudanças direto de lá, com um clique.</p>
+
+      <h3 class="reveal">1. Instale o Git</h3>
+      <div class="cartao reveal">
+        <div class="so-win">
+          <p>Baixe o <b>Git for Windows</b> em <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com</a> e instale clicando em <b>Next</b> até o fim (as opções padrão estão ótimas). Depois, <b>feche e abra o VS Code</b>.</p>
+        </div>
+        <div class="so-mac">
+          <p>No Mac, o Git vem com as <b>Ferramentas de Linha de Comando</b> da Apple. Abra o Terminal, digite o comando abaixo e, se o Mac oferecer, clique em <b>Instalar</b>.</p>
+        </div>
+        <p>Para conferir, no terminal do VS Code (<b>Terminal → Novo Terminal</b>):</p>
+        <div class="comando"><code>git --version</code></div>
+        <p class="nota">Apareceu <code>git version 2.…</code>? Pronto! ✅</p>
+      </div>
+
+      <h3 class="reveal">2. Diga ao Git quem é você <small>(só uma vez por computador)</small></h3>
+      <div class="cartao reveal">
+        <p>Troque pelo seu nome e pelo e-mail <b>da sua conta do GitHub</b>:</p>
+        <div class="comando"><code>git config --global user.name "Maria Silva"</code></div>
+        <div class="comando"><code>git config --global user.email "maria@email.com"</code></div>
+      </div>
+
+      <h3 class="reveal">3. Clone o repositório</h3>
+      <ol class="passos reveal">
+        <li>No GitHub, na página do repositório: botão verde <b>Code</b> → copie o link <b>HTTPS</b></li>
+        <li>No VS Code: <kbd><span class="so-win">Ctrl</span><span class="so-mac">Cmd</span>+Shift+P</kbd> → digite <b>Git: Clone</b> → cole o link</li>
+        <li>Escolha a pasta onde o projeto vai ficar e clique em <b>Abrir</b></li>
+        <li>Na primeira vez, o VS Code pede para <b>entrar com o GitHub</b>: autorize no navegador</li>
+      </ol>
+
+      <h3 class="reveal">4. O ciclo de todo dia</h3>
+      <div class="ciclo reveal" id="ciclo">
+        <div class="ciclo-passo"><span>✏️</span><b>Edite</b><small>trabalhe nos arquivos normalmente</small></div>
+        <div class="ciclo-seta">→</div>
+        <div class="ciclo-passo"><span>➕</span><b>Prepare</b><small>na aba <i>Controle do Código-Fonte</i>, clique no <b>+</b> dos arquivos</small></div>
+        <div class="ciclo-seta">→</div>
+        <div class="ciclo-passo"><span>📸</span><b>Commit</b><small>escreva a mensagem e clique em <b>Commit</b></small></div>
+        <div class="ciclo-seta">→</div>
+        <div class="ciclo-passo"><span>☁️</span><b>Envie</b><small>clique em <b>Sync Changes</b> (é o push)</small></div>
+      </div>
+
+      <h3 class="reveal">5. Simulador: faça pelo terminal 🧪</h3>
+      <p class="reveal">Os botões do VS Code fazem estes mesmos comandos. Siga as missões e veja os arquivos andando até o GitHub.</p>
+      <div class="simulador reveal" id="simulador">
+        <div class="sim-areas">
+          <div class="sim-area"><div class="sim-area-titulo">📂 Sua pasta</div><div class="sim-itens" id="sim-pasta"></div></div>
+          <div class="sim-area"><div class="sim-area-titulo">➕ Preparados <small>(staging)</small></div><div class="sim-itens" id="sim-stage"></div></div>
+          <div class="sim-area"><div class="sim-area-titulo">📸 Commits <small>(no seu PC)</small></div><div class="sim-itens" id="sim-commits"></div></div>
+          <div class="sim-area nuvem"><div class="sim-area-titulo">☁️ GitHub</div><div class="sim-itens" id="sim-github"></div></div>
+        </div>
+        <div class="sim-baixo">
+          <div class="sim-terminal">
+            <div class="janela-barra"><i></i><i></i><i></i><span>terminal</span></div>
+            <pre class="sim-saida" id="sim-saida" aria-live="polite"></pre>
+            <form class="sim-linha" id="sim-form">
+              <span class="sim-prompt">meu-projeto $</span>
+              <input type="text" id="sim-input" autocomplete="off" spellcheck="false" aria-label="Digite um comando git" placeholder="digite aqui...">
+            </form>
+          </div>
+          <div class="sim-missoes">
+            <h4>🎯 Missões</h4>
+            <ol id="sim-missoes"></ol>
+            <button class="btn btn-ghost" id="sim-reiniciar">↺ Recomeçar</button>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="reveal">6. O que NÃO enviar: o <code>.gitignore</code></h3>
+      <div class="cartao reveal">
+        <p>Crie um arquivo chamado <code>.gitignore</code> na pasta do projeto. Tudo o que estiver listado nele o Git ignora:</p>
+        <pre class="bloco-codigo"><code># senhas e chaves: NUNCA vão para o GitHub
+.env
+
+# pastas que são geradas ou baixadas automaticamente
+node_modules/
+__pycache__/
+venv/</code></pre>
+        <p class="nota">⚠️ Se você enviou uma senha sem querer, apagar o arquivo não basta: ela continua no histórico. Troque a senha!</p>
+      </div>
+
+      <div class="quiz" data-quiz="m4"></div>
+      <button class="btn-concluir" data-modulo="m4">✔ Concluir módulo</button>
+    </section>
+
+    <!-- ===================== 5. README ===================== -->
+    <section class="modulo" id="m5" data-titulo="README caprichado" data-icone="📝">
+      <header class="modulo-topo reveal">
+        <span class="modulo-num">Módulo 5</span><span class="modulo-tempo">⏱️ 20 min</span>
+        <h2>Um <span class="hl">README</span> que impressiona</h2>
+      </header>
+      <p class="reveal">O README é a <b>primeira coisa</b> que aparece no seu repositório. É a capa do projeto, e o que um recrutador (ou a professora 😉) vai ler primeiro.</p>
+
+      <div class="duas-colunas">
+        <div class="cartao reveal">
+          <h3>O que todo README precisa ter</h3>
+          <ul class="checklist-simples">
+            <li>📛 Nome do projeto</li>
+            <li>📄 O que ele faz, em 2 ou 3 frases</li>
+            <li>🛠️ Tecnologias usadas</li>
+            <li>▶️ Como rodar o projeto</li>
+            <li>🖼️ Um print ou link do site</li>
+            <li>👤 Seu nome, curso e disciplina</li>
+          </ul>
+        </div>
+        <div class="cartao reveal" style="--d:.15s">
+          <h3>Markdown em 1 minuto</h3>
+          <table class="tabela-md">
+            <tr><td><code># Título</code></td><td>título grande</td></tr>
+            <tr><td><code>## Seção</code></td><td>subtítulo</td></tr>
+            <tr><td><code>**negrito**</code></td><td><b>negrito</b></td></tr>
+            <tr><td><code>- item</code></td><td>lista</td></tr>
+            <tr><td><code>[texto](link)</code></td><td>link</td></tr>
+            <tr><td><code>![descrição](imagem.png)</code></td><td>imagem</td></tr>
+            <tr><td><code>`código`</code></td><td><code>código</code></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <h3 class="reveal">Gerador de README ✨</h3>
+      <p class="reveal">Preencha, clique em <b>Gerar</b> e ajuste no editor. A pré-visualização mostra como vai ficar no GitHub.</p>
+      <form class="gerador reveal" id="gerador">
+        <label>Nome do projeto<input name="projeto" placeholder="ex.: Calculadora de Médias"></label>
+        <label>Seu nome<input name="autor" placeholder="ex.: Maria Silva"></label>
+        <label class="largo">O que o projeto faz<input name="descricao" placeholder="ex.: Calcula a média final e mostra se o aluno foi aprovado."></label>
+        <label>Tecnologias <small>(separe por vírgula)</small><input name="tecnologias" placeholder="ex.: HTML, CSS, JavaScript"></label>
+        <label>Como rodar<input name="rodar" placeholder="ex.: Abra o index.html no navegador"></label>
+        <label>Curso<input name="curso" placeholder="ex.: Análise e Desenvolvimento de Sistemas"></label>
+        <label>Disciplina<input name="disciplina" placeholder="ex.: Programação Web"></label>
+        <button class="btn btn-primario" type="submit">✨ Gerar README</button>
+      </form>
+      <div class="editor-md reveal">
+        <div class="editor-lado">
+          <div class="editor-titulo">README.md <small>(edite à vontade)</small></div>
+          <textarea id="md-entrada" spellcheck="false" aria-label="Texto do README em Markdown"></textarea>
+        </div>
+        <div class="editor-lado">
+          <div class="editor-titulo">👀 Como fica no GitHub</div>
+          <div class="md-preview" id="md-preview"></div>
+        </div>
+      </div>
+      <div class="editor-acoes reveal">
+        <button class="btn btn-ghost" id="md-copiar">📋 Copiar</button>
+        <button class="btn btn-ghost" id="md-baixar">⬇ Baixar README.md</button>
+      </div>
+
+      <div class="quiz" data-quiz="m5"></div>
+      <button class="btn-concluir" data-modulo="m5">✔ Concluir módulo</button>
+    </section>
+
+    <!-- ===================== 6. GITHUB PAGES ===================== -->
+    <section class="modulo" id="m6" data-titulo="GitHub Pages" data-icone="🌐">
+      <header class="modulo-topo reveal">
+        <span class="modulo-num">Módulo 6</span><span class="modulo-tempo">⏱️ 15 min</span>
+        <h2>Seu site no ar com o <span class="hl">GitHub Pages</span></h2>
+      </header>
+      <p class="reveal">Fez um site em HTML, CSS e JavaScript? O GitHub publica <b>de graça</b>, com um link para mostrar para todo mundo. Este curso que você está vendo está no GitHub Pages! 😄</p>
+
+      <div class="dica alerta reveal">
+        <span>⚠️</span>
+        <p>O Pages publica só <b>sites estáticos</b> (HTML, CSS, JavaScript, imagens). Projetos que precisam de servidor, como Python, PHP ou banco de dados, não rodam nele. Para esses, o repositório com um bom README já é a entrega.</p>
+      </div>
+
+      <ol class="passos reveal">
+        <li>Confira se o arquivo principal se chama <code>index.html</code> e está <b>na raiz</b> do repositório (fora de qualquer pasta)</li>
+        <li>No repositório: <b>Settings</b> → <b>Pages</b> (no menu da esquerda)</li>
+        <li>Em <b>Source</b>, escolha <b>Deploy from a branch</b></li>
+        <li>Em <b>Branch</b>, escolha <b>main</b> e a pasta <b>/ (root)</b> → <b>Save</b></li>
+        <li>Espere 1 ou 2 minutos e atualize a página: o link aparece no topo 🎉</li>
+      </ol>
+
+      <div class="cartao ferramenta reveal">
+        <h3>🔗 Qual vai ser o link do seu site?</h3>
+        <div class="url-campos">
+          <label>Seu usuário<input id="url-user" placeholder="maria-silva" autocomplete="off" spellcheck="false"></label>
+          <label>Nome do repositório<input id="url-repo" placeholder="calculadora-medias" autocomplete="off" spellcheck="false"></label>
+        </div>
+        <p class="url-resultado">https://<b id="url-a">seu-usuario</b>.github.io/<b id="url-b">nome-do-repositorio</b>/</p>
+      </div>
+
+      <h3 class="reveal">Bônus: seu perfil vira portfólio 🌟</h3>
+      <div class="cartao reveal">
+        <p>Crie um repositório com o <b>mesmo nome do seu usuário</b> (ex.: <code>maria-silva/maria-silva</code>) e marque <b>Add README</b>.
+        Tudo o que você escrever nesse README aparece <b>no topo do seu perfil</b>: apresentação, tecnologias que você usa e links para os seus melhores projetos.</p>
+      </div>
+
+      <div class="quiz" data-quiz="m6"></div>
+      <button class="btn-concluir" data-modulo="m6">✔ Concluir módulo</button>
+    </section>
+
+    <!-- ===================== 7. ENTREGAS ===================== -->
+    <section class="modulo" id="m7" data-titulo="Entregando projetos" data-icone="🎓">
+      <header class="modulo-topo reveal">
+        <span class="modulo-num">Módulo 7</span><span class="modulo-tempo">⏱️ 10 min</span>
+        <h2>Entregando os projetos das <span class="hl">disciplinas</span></h2>
+      </header>
+      <p class="reveal">Todos os projetos das minhas disciplinas são entregues pelo GitHub. Siga estas regras e use o checklist antes de enviar:</p>
+
+      <!-- as regras são montadas pelo js/main.js (procure "REGRAS_ENTREGA") -->
+      <div class="regras" id="regras"></div>
+
+      <div class="duas-colunas">
+        <div class="cartao reveal">
+          <h3>✅ Checklist antes de entregar</h3>
+          <ul class="checklist" id="checklist"></ul>
+        </div>
+        <div class="cartao ferramenta reveal" style="--d:.15s">
+          <h3>✉️ Mensagem de entrega</h3>
+          <label>Seu nome<input id="ent-nome" placeholder="Maria Silva" autocomplete="off"></label>
+          <label>Disciplina<input id="ent-disc" placeholder="Programação Web" autocomplete="off"></label>
+          <label>Link do repositório<input id="ent-link" placeholder="https://github.com/maria-silva/prog-web-projeto-final" autocomplete="off" spellcheck="false"></label>
+          <pre class="ent-msg" id="ent-msg"></pre>
+          <button class="btn btn-ghost" id="ent-copiar">📋 Copiar mensagem</button>
+        </div>
+      </div>
+
+      <div class="quiz" data-quiz="m7"></div>
+      <button class="btn-concluir" data-modulo="m7">✔ Concluir módulo</button>
+
+      <div class="final" id="final">
+        <div class="final-estrela"><img src="assets/estrela.png" alt=""></div>
+        <h2>Curso concluído! 🎉</h2>
+        <p>Agora é com você: cada projeto novo, um repositório novo. Seu portfólio começa hoje.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- aviso que aparece rapidinho (ex.: "Copiado!") -->
+  <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
+
+  <!-- marked transforma Markdown em HTML; DOMPurify limpa o HTML gerado -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>
