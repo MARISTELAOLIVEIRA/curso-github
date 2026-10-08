@@ -60,6 +60,8 @@ const QUIZZES = {
     { p: "Qual nome de usuário passa a melhor impressão?", op: ["xX_maria_gamer_Xx", "maria-silva", "mariaaaa2005"], certa: 1, exp: "Nome e sobrenome, simples e fácil de lembrar. Ele vai estar no link de todos os seus projetos." },
     { p: "Qual e-mail usar para criar a conta?", op: ["Um e-mail pessoal permanente (e depois adicionar o da faculdade)", "Só o e-mail da faculdade", "Tanto faz: depois não dá para mudar"], certa: 0, exp: "O e-mail institucional pode ser desativado quando você se formar." },
     { p: "Para que serve a verificação em duas etapas?", op: ["Deixar o login mais rápido", "Proteger a conta mesmo se alguém descobrir a sua senha", "Ganhar repositórios extras"], certa: 1, exp: "Além da senha, é preciso o código do app no seu celular." },
+    { p: "Você trocou de celular e o app autenticador sumiu. Como entrar na conta?", op: ["Com os códigos de recuperação que você guardou", "Criando uma conta nova", "Não tem jeito"], certa: 0, exp: "Por isso eles precisam ficar guardados FORA do celular." },
+    { p: "Para que adicionar o e-mail da faculdade na sua conta?", op: ["Para trocar o nome de usuário", "Para comprovar que é estudante e pedir os benefícios, como o GitHub Pro e o Copilot", "Porque o e-mail pessoal para de funcionar"], certa: 1, exp: "Ele entra como e-mail adicional; o pessoal continua sendo o principal." },
   ],
   m3: [
     { p: "Qual é o melhor nome de repositório?", op: ["Projeto Final (1)", "asdfgh", "calculadora-medias"], certa: 2, exp: "Curto, descritivo, em minúsculas e com hífens." },
