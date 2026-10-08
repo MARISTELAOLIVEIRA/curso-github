@@ -13,7 +13,7 @@ Profª Maristela Oliveira (Stela).
 | 4 | Git + VS Code | Simulador de terminal com missões (`add`, `commit`, `push`, `log`) + link para a prática com correção automática ([git-vscode](https://github.com/MARISTELAOLIVEIRA/git-vscode)) + quiz |
 | 5 | README caprichado | Gerador de README com pré-visualização ao vivo + quiz |
 | 6 | GitHub Pages | Montador do link do site + quiz |
-| 7 | Entregando projetos | Regras, checklist e gerador da mensagem de entrega + quiz |
+| 7 | Entregando projetos | Regras, checklist e gerador da mensagem de entrega + link para a prática de trabalho em equipe ([trabalho-em-equipe](https://github.com/MARISTELAOLIVEIRA/trabalho-em-equipe)) + quiz |
 
 O progresso do aluno fica salvo no navegador dele (localStorage). A chave **Windows/Mac** no menu troca as instruções e os atalhos.
 
