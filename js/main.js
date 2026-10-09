@@ -379,7 +379,8 @@ function animarConfete() {
 const listaVersoes = $("#viagem-commits");
 const arquivoVersao = $("#viagem-arquivo");
 function mostrarVersao(i) {
-  $$("button", listaVersoes).forEach((b, j) => b.classList.toggle("ativo", j === i));
+  // cada botão sabe qual versão ele mostra (data-versao); a lista está em ordem inversa
+  $$("button", listaVersoes).forEach((b) => b.classList.toggle("ativo", +b.dataset.versao === i));
   arquivoVersao.classList.add("trocando");
   setTimeout(() => {
     arquivoVersao.innerHTML = `<span class="cz">index.html</span>\n` + VERSOES[i].arquivo
@@ -391,7 +392,7 @@ function mostrarVersao(i) {
 [...VERSOES].reverse().forEach((v) => {
   const i = VERSOES.indexOf(v);
   const li = document.createElement("li");
-  li.innerHTML = `<button>${v.msg}<small>${v.hash} · ${v.data}</small></button>`;
+  li.innerHTML = `<button data-versao="${i}">${v.msg}<small>${v.hash} · ${v.data}</small></button>`;
   li.querySelector("button").addEventListener("click", () => mostrarVersao(i));
   listaVersoes.appendChild(li);
 });
