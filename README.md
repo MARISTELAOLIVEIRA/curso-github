@@ -22,7 +22,7 @@ O progresso do aluno fica salvo no navegador dele (localStorage). A chave **Wind
 [`certificado.html`](https://maristelaoliveira.github.io/curso-github/certificado.html): o aluno digita o usuário do GitHub e vê os certificados que já conquistou. São 4: um para cada curso prático e um da **trilha completa** (os três).
 
 - **Verificação automática:** a página confere no GitHub se o aluno concluiu de verdade (a issue do robô fechada com `concluido`). Trocar o nome no endereço não gera certificado.
-- **Botões:** adicionar ao perfil do LinkedIn (Licenças e certificados), compartilhar no feed com texto sugerido (citando @Maristela Oliveira e @Faculdade Senac DF) e baixar a imagem em PNG.
+- **Botões:** baixar a imagem em PNG em todos. O **LinkedIn** (adicionar ao perfil e compartilhar com texto pronto citando @Maristela Oliveira e @Faculdade Senac DF) só no certificado da **trilha completa**; nos outros aparece o progresso da trilha. Para liberar em todos: `linkedinSoNaTrilha: false` no `CONFIG`.
 - **Comemoração:** a mensagem final do robô em cada curso prático mostra o selo da conquista com confete e o link do certificado.
 - **Para editar** o nome do evento, os nomes das menções e os links: bloco `CONFIG` no `certificado.html`.
 
