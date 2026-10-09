@@ -285,7 +285,7 @@
 
         <div class="post">
           <h3>✍️ Texto sugerido para a sua postagem</h3>
-          <p class="dica">Copie e cole na postagem. Para a marcação funcionar, apague e digite de novo os nomes depois do <b>@</b> (<b>@${escapar(CONFIG.mencaoProfessora)}</b> e <b>@${escapar(CONFIG.mencaoFaculdade)}</b>): o LinkedIn mostra a lista e você escolhe.</p>
+          <p class="dica">O botão <b>📣 Compartilhar no LinkedIn</b> já abre a postagem com este texto. Se não aparecer, copie e cole. Para a marcação funcionar, apague e digite de novo os nomes depois do <b>@</b> (<b>@${escapar(CONFIG.mencaoProfessora)}</b> e <b>@${escapar(CONFIG.mencaoFaculdade)}</b>): o LinkedIn mostra a lista e você escolhe.</p>
           <pre id="texto-post"></pre>
           <button class="btn btn-ghost" id="btn-copiar-texto">📋 Copiar texto</button>
         </div>`);
@@ -298,8 +298,6 @@
         issueYear: data.getFullYear(), issueMonth: data.getMonth() + 1, certUrl: link, certId: cod,
       });
       $("#btn-perfil").href = perfilURL;
-      // LinkedIn: compartilhar o link do certificado no feed
-      $("#btn-post").href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(link)}`;
 
       $("#texto-post").textContent =
 `🎉 Concluí ${cursoId === "trilha" ? "a trilha completa" : "o curso prático"} "${curso.nome}"${CONFIG.evento ? `, no ${CONFIG.evento}` : `, da série ${CONFIG.serie}`}, com a @${CONFIG.mencaoProfessora}, na @${CONFIG.mencaoFaculdade}!
@@ -312,6 +310,10 @@ ${curso.habilidades.map((h) => `✅ ${h}`).join("\n")}
 Certificado verificado: ${link}
 
 #GitHub #Git #Portfolio #Tecnologia #SenacDF`;
+
+      // LinkedIn: abre a caixa de "Começar publicação" já com o texto sugerido.
+      // (endereço não oficial do LinkedIn: se um dia parar de funcionar, o botão "Copiar texto" continua valendo)
+      $("#btn-post").href = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent($("#texto-post").textContent)}`;
 
       $("#btn-copiar-texto").onclick = () => copiar($("#texto-post").textContent, "Texto copiado! Agora é só colar no LinkedIn.");
       $("#btn-link").onclick = () => copiar(link, "Link do certificado copiado!");
