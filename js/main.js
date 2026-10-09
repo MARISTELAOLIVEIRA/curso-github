@@ -7,7 +7,7 @@
      1. Atalhos e memória do navegador (progresso salvo)
      2. Menu lateral, progresso e botões "Concluir módulo"
      3. Chave Windows/Mac
-     4. Efeitos: fundo animado, selo da professora, botões de copiar, aviso, confete
+     4. Efeitos: fundo animado (rede de commits), brilho do mouse, selo, botões de copiar, aviso, confete
      5. Boas-vindas: histórico de commits animado
      6. Módulo 1: viagem no tempo
      7. Módulo 2: verificador de nome de usuário
@@ -270,52 +270,124 @@ if (!matchMedia("(hover: none)").matches) {
   });
 }
 
-// FUNDO: "galhos" de commits (bolinhas ligadas) subindo devagar, como um gráfico do Git
+// FUNDO: rede de "commits" no estilo do gráfico de contribuições do GitHub.
+// Quadradinhos verdes se movem e se ligam quando ficam perto; o mouse empurra os
+// pontos e se liga a eles com linhas douradas; termos do Git sobem devagar.
 (function fundo() {
   const canvas = $("#fundo");
   const ctx = canvas.getContext("2d");
-  const CORES = ["63,185,80", "126,226,184", "163,113,247", "227,194,107"];
-  let ramos = [], dpr = 1;
+  // PARA EDITAR: os termos que sobem no fundo
+  const SIMBOLOS = ["git", "commit", "push", "pull", "merge", "main", "PR", "⎇", "clone", "README", "+", "−", "{ }", "#", "✔"];
+  // verdes do gráfico de contribuições do GitHub + o menta da estrela
+  const CORES_PONTOS = ["14,68,41", "0,109,50", "38,166,65", "57,211,83", "126,226,184"];
+  // menta, roxo e azul do GitHub + o dourado da estrela
+  const CORES_SIMBOLOS = ["126,226,184", "163,113,247", "88,166,255", "227,194,107"];
+  const sortearDe = (lista) => lista[Math.floor(Math.random() * lista.length)];
+  let pontos = [], simbolos = [];
+  const mouse = { x: -9999, y: -9999 };
 
-  function novoRamo(inicial) {
-    const n = Math.round(aleatorio(3, 6));
-    return {
-      x: aleatorio(0, innerWidth), y: inicial ? aleatorio(0, innerHeight) : innerHeight + 200,
-      v: aleatorio(0.12, 0.35), cor: CORES[Math.floor(Math.random() * CORES.length)],
-      a: aleatorio(0.10, 0.22),
-      // cada nó é um commit; alguns "desviam" para o lado (uma branch)
-      nos: Array.from({ length: n }, (_, i) => ({ dx: i && Math.random() < 0.35 ? aleatorio(-40, 40) : 0, dy: i * 38 })),
-    };
-  }
   function redimensionar() {
-    dpr = Math.min(devicePixelRatio || 1, 2);
+    // dpr = densidade da tela (2 em telas Retina), para o desenho ficar nítido
+    const dpr = Math.min(devicePixelRatio || 1, 2);
     canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ramos = Array.from({ length: Math.round(Math.min(18, innerWidth / 90)) }, () => novoRamo(true));
+    const qtd = Math.round(Math.min(90, (innerWidth * innerHeight) / 16000));   // mais pontos em telas maiores
+    pontos = Array.from({ length: qtd }, () => ({
+      x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+      vx: aleatorio(-0.25, 0.25), vy: aleatorio(-0.25, 0.25),
+      lado: aleatorio(3.5, 7), cor: sortearDe(CORES_PONTOS),
+    }));
+    simbolos = Array.from({ length: Math.round(qtd / 4) }, () => novoSimbolo(true));
   }
+
+  function novoSimbolo(inicial) {
+    return {
+      t: sortearDe(SIMBOLOS), cor: sortearDe(CORES_SIMBOLOS),
+      x: Math.random() * innerWidth,
+      y: inicial ? Math.random() * innerHeight : innerHeight + 40,
+      v: aleatorio(0.15, 0.45), tam: aleatorio(12, 20), a: aleatorio(0.07, 0.18), giro: aleatorio(-0.25, 0.25),
+    };
+  }
+
+  // desenha UM quadro; requestAnimationFrame chama de novo ~60 vezes por segundo
   function desenhar() {
     ctx.clearRect(0, 0, innerWidth, innerHeight);
-    ramos.forEach((r, i) => {
-      r.y -= r.v;
-      if (r.y < -260) ramos[i] = novoRamo(false);
-      ctx.strokeStyle = `rgba(${r.cor},${r.a})`;
-      ctx.fillStyle = `rgba(${r.cor},${r.a * 1.6})`;
-      ctx.lineWidth = 2;
-      r.nos.forEach((n, j) => {
-        const x = r.x + n.dx, y = r.y + n.dy;
-        if (j) {
-          const ant = r.nos[j - 1];
-          ctx.beginPath(); ctx.moveTo(r.x + ant.dx, r.y + ant.dy); ctx.lineTo(x, y); ctx.stroke();
+    const raio = 130;   // distância máxima para ligar dois pontos
+
+    for (const p of pontos) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > innerWidth) p.vx *= -1;    // bateu na borda? volta
+      if (p.y < 0 || p.y > innerHeight) p.vy *= -1;
+      // o mouse empurra os pontos de leve
+      const dxm = p.x - mouse.x, dym = p.y - mouse.y, dm = Math.hypot(dxm, dym);
+      if (dm < 120 && dm > 0) { p.x += (dxm / dm) * 1.2; p.y += (dym / dm) * 1.2; }
+    }
+
+    // linhas verdes entre pontos próximos (quanto mais perto, mais forte)
+    ctx.lineWidth = 1;
+    for (let i = 0; i < pontos.length; i++) {
+      for (let j = i + 1; j < pontos.length; j++) {
+        const a = pontos[i], b = pontos[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < raio) {
+          ctx.strokeStyle = `rgba(63, 185, 80, ${0.22 * (1 - d / raio)})`;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
         }
-        ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
-      });
-    });
+      }
+      // linhas douradas ligando os pontos ao mouse
+      const p = pontos[i], dm = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+      if (dm < raio * 1.4) {
+        ctx.strokeStyle = `rgba(227, 194, 107, ${0.6 * (1 - dm / (raio * 1.4))})`;
+        ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+        ctx.lineWidth = 1;
+      }
+    }
+
+    // os pontos são quadradinhos arredondados, como as células do gráfico de contribuições
+    for (const p of pontos) {
+      ctx.fillStyle = `rgba(${p.cor}, .85)`;
+      ctx.beginPath();
+      ctx.roundRect ? ctx.roundRect(p.x - p.lado / 2, p.y - p.lado / 2, p.lado, p.lado, 1.5) : ctx.rect(p.x - p.lado / 2, p.y - p.lado / 2, p.lado, p.lado);
+      ctx.fill();
+    }
+
+    // termos do Git sobem; quando saem pelo topo, nasce outro lá embaixo
+    for (let i = 0; i < simbolos.length; i++) {
+      const s = simbolos[i];
+      s.y -= s.v;
+      if (s.y < -40) simbolos[i] = novoSimbolo(false);
+      ctx.save();
+      ctx.translate(s.x, s.y); ctx.rotate(s.giro);
+      ctx.font = `600 ${s.tam}px "JetBrains Mono", monospace`;
+      ctx.fillStyle = `rgba(${s.cor}, ${s.a})`;
+      ctx.fillText(s.t, 0, 0);
+      ctx.restore();
+    }
+
+    // aba escondida ou "reduzir movimento" ligado: para de animar
     if (!document.hidden && !MOVIMENTO_REDUZIDO) requestAnimationFrame(desenhar);
   }
+
   addEventListener("resize", redimensionar);
+  addEventListener("pointermove", (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  document.addEventListener("pointerleave", () => { mouse.x = mouse.y = -9999; });
   document.addEventListener("visibilitychange", () => !document.hidden && requestAnimationFrame(desenhar));
   redimensionar();
   desenhar();
+})();
+
+// BRILHO que segue o mouse com um pequeno atraso (fica mais suave): a cada quadro
+// ele anda 12% da distância que falta. Em telas de toque não aparece.
+(function brilhoDoMouse() {
+  if (matchMedia("(hover: none)").matches) return;
+  const brilho = $(".cursor-glow");
+  let alvoX = innerWidth / 2, alvoY = innerHeight / 2, x = alvoX, y = alvoY;
+  addEventListener("pointermove", (e) => { alvoX = e.clientX; alvoY = e.clientY; document.body.classList.add("mouse-ativo"); });
+  (function seguir() {
+    x += (alvoX - x) * 0.12; y += (alvoY - y) * 0.12;
+    brilho.style.transform = `translate(${x - 210}px, ${y - 210}px)`;
+    requestAnimationFrame(seguir);
+  })();
 })();
 
 // CONFETE: confete(quantidade, x, y)
