@@ -113,6 +113,11 @@
     .post { max-width: 760px; margin: 0 auto; background: var(--painel); border: 1px solid var(--borda); border-radius: 14px; padding: 18px 20px; }
     .post h3 { font-size: 16px; margin-bottom: 8px; }
     .post p.dica { color: var(--suave); font-size: 13.5px; margin-bottom: 10px; }
+    .trilha-progresso { margin-bottom: 14px; }
+    .trilha-progresso .btn { margin-top: 8px; }
+    .barra-trilha { height: 12px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; margin: 6px 0 10px; }
+    .barra-trilha i { display: block; height: 100%; background: linear-gradient(90deg, #7ee2b8, #3fb950); border-radius: 99px; transition: width 1s ease; }
+    .lista-trilha { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; font-size: 15px; }
     .post pre { white-space: pre-wrap; font-family: var(--sans); font-size: 14.5px; line-height: 1.55; background: #0b1118; border: 1px solid var(--borda); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; }
 
     /* ---------- página "Meus certificados" ---------- */
@@ -160,6 +165,7 @@
     linkedinFaculdade: "https://www.linkedin.com/school/faculdadesenacdf/",
     linkedinFaculdadeId: "",      // número da página da faculdade no LinkedIn (liga o certificado à página dela)
     serie: "GitHub na Prática",
+    linkedinSoNaTrilha: true,     // true: os botões do LinkedIn só aparecem no certificado da trilha completa
     // o evento em que os cursos foram feitos (aparece no certificado; deixe "" para esconder)
     evento: "Workshop GitHub na Prática: Como Transformar Seus Projetos em Portfólio",
     eventoComplemento: "",        // ex.: "Jornada Interdisciplinar 2026" (aparece embaixo do nome do evento)
@@ -167,11 +173,11 @@
   };
   // titulo: o da issue que o robô abre (é por ele que a página encontra a conclusão)
   const CURSOS = {
-    entrega: { icone: "⭐", nome: "Minha primeira entrega", titulo: "Minha primeira entrega",
+    entrega: { icone: "⭐", nome: "Minha primeira entrega", titulo: "Minha primeira entrega", repo: "https://github.com/MARISTELAOLIVEIRA/primeira-entrega",
       habilidades: ["Repositório a partir de modelo", "README em Markdown", "Página em HTML", "Publicação no GitHub Pages", "Fluxo de entrega de projetos"] },
-    vscode: { icone: "💻", nome: "Git no VS Code", titulo: "Git no VS Code",
+    vscode: { icone: "💻", nome: "Git no VS Code", titulo: "Git no VS Code", repo: "https://github.com/MARISTELAOLIVEIRA/git-vscode",
       habilidades: ["Clone e commits no VS Code", "Push e pull", "Configuração do Git", "Proteção de segredos com .gitignore", "Boas mensagens de commit"] },
-    equipe: { icone: "👥", nome: "Trabalho em equipe", titulo: "Trabalho em equipe",
+    equipe: { icone: "👥", nome: "Trabalho em equipe", titulo: "Trabalho em equipe", repo: "https://github.com/MARISTELAOLIVEIRA/trabalho-em-equipe",
       habilidades: ["Branches", "Pull requests", "Revisão de código", "Resolução de conflitos", "Merge"] },
   };
   const TRILHA = { icone: "🏆", nome: "Trilha completa: do zero ao portfólio",
@@ -236,6 +242,7 @@
       const cod = await codigo(login, cursoId, data);
       const link = `${CONFIG.endereco}?aluno=${encodeURIComponent(login)}&curso=${cursoId}`;
       const titulo = `${CONFIG.serie}: ${curso.nome}`;
+      const compartilha = cursoId === "trilha" || !CONFIG.linkedinSoNaTrilha;
 
       $("#status").className = "status ok";
       $("#status").innerHTML = `✅ <b>Certificado verificado:</b> conferido agora mesmo no GitHub. ${resultados.map((r, i) => `<a href="${r.url}" target="_blank" rel="noopener">ver ${ids.length > 1 ? CURSOS[ids[i]].nome : "a conclusão"}</a>`).join(" · ")}`;
@@ -277,13 +284,15 @@
         </div></div>
 
         <div class="acoes">
-          <a class="btn btn-linkedin" id="btn-perfil" target="_blank" rel="noopener">➕ Adicionar ao perfil do LinkedIn</a>
-          <a class="btn btn-linkedin" id="btn-post" target="_blank" rel="noopener">📣 Compartilhar no LinkedIn</a>
+          ${compartilha ? `<a class="btn btn-linkedin" id="btn-perfil" target="_blank" rel="noopener">➕ Adicionar ao perfil do LinkedIn</a>
+          <a class="btn btn-linkedin" id="btn-post" target="_blank" rel="noopener">📣 Compartilhar no LinkedIn</a>` : ""}
           <button class="btn btn-verde" id="btn-baixar">⬇ Baixar imagem</button>
           <button class="btn btn-ghost" id="btn-link">🔗 Copiar link do certificado</button>
         </div>
 
-        <div class="post">
+        ${compartilha ? "" : `<div class="post trilha-progresso" id="trilha-progresso"><span class="girando">⏳</span> Conferindo os outros cursos da trilha...</div>`}
+
+        <div class="post" ${compartilha ? "" : "hidden"}>
           <h3>✍️ Texto sugerido para a sua postagem</h3>
           <p class="dica">O botão <b>📣 Compartilhar no LinkedIn</b> já abre a postagem com este texto. Se não aparecer, copie e cole. Para a marcação funcionar, apague e digite de novo os nomes depois do <b>@</b> (<b>@${escapar(CONFIG.mencaoProfessora)}</b> e <b>@${escapar(CONFIG.mencaoFaculdade)}</b>): o LinkedIn mostra a lista e você escolhe.</p>
           <pre id="texto-post"></pre>
@@ -291,6 +300,7 @@
         </div>`);
 
       // LinkedIn: "adicionar certificado ao perfil" (formulário de Licenças e certificados já preenchido)
+      if (compartilha) {
       const perfilURL = new URL("https://www.linkedin.com/profile/add");
       perfilURL.search = new URLSearchParams({
         startTask: "CERTIFICATION_NAME", name: titulo,
@@ -314,15 +324,36 @@ Certificado verificado: ${link}
       // LinkedIn: abre a caixa de "Começar publicação" já com o texto sugerido.
       // (endereço não oficial do LinkedIn: se um dia parar de funcionar, o botão "Copiar texto" continua valendo)
       $("#btn-post").href = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent($("#texto-post").textContent)}`;
+      }
 
       $("#btn-copiar-texto").onclick = () => copiar($("#texto-post").textContent, "Texto copiado! Agora é só colar no LinkedIn.");
       $("#btn-link").onclick = () => copiar(link, "Link do certificado copiado!");
       $("#btn-baixar").onclick = baixarImagem;
       confete(220);
+      if (!compartilha) mostrarProgressoTrilha(login, cursoId);
     } catch (e) {
       $("#status").className = "status erro";
       $("#status").textContent = "⚠️ " + e.message;
     }
+  }
+
+  // nos certificados de cada curso: quantos da trilha o aluno já concluiu e o que falta
+  async function mostrarProgressoTrilha(login, cursoAtual) {
+    const caixa = $("#trilha-progresso");
+    try {
+      const feitos = {};
+      for (const id of Object.keys(CURSOS)) feitos[id] = id === cursoAtual ? true : Boolean(await conclusao(login, id));
+      const n = Object.values(feitos).filter(Boolean).length;
+      const total = Object.keys(CURSOS).length;
+      caixa.innerHTML = `
+        <h3>🏆 Trilha completa: ${n} de ${total} cursos práticos</h3>
+        <div class="barra-trilha"><i style="width:${(n / total) * 100}%"></i></div>
+        <ul class="lista-trilha">${Object.entries(CURSOS).map(([id, c]) => `<li>${feitos[id] ? "✅" : "⬜"} ${c.icone} ${escapar(c.nome)}
+          ${feitos[id] ? "" : ` · <a href="${c.repo}" target="_blank" rel="noopener">começar →</a>`}</li>`).join("")}</ul>
+        ${n === total
+          ? `<p>Você concluiu a trilha! 🎉 <a class="btn btn-linkedin" href="?aluno=${encodeURIComponent(login)}&curso=trilha">Ver o certificado da trilha e compartilhar no LinkedIn →</a></p>`
+          : `<p class="dica">Conclua os ${total} cursos práticos para ganhar o <b>certificado da trilha completa</b> e compartilhar no LinkedIn. 💼</p>`}`;
+    } catch (e) { caixa.textContent = "⚠️ " + e.message; }
   }
 
   async function copiar(texto, aviso) {
