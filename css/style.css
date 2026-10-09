@@ -153,6 +153,8 @@ body.rolou .professora:not(:hover) .prof-texto { max-width: 0; opacity: 0; }
 .so-chave span { width: 100%; }
 .so-chave button { flex: 1; padding: 7px 8px; border-radius: 9px; border: 1px solid var(--borda); font-size: 13px; }
 .so-chave button.ativo { background: rgba(63,185,80,.16); border-color: var(--verde); color: var(--texto); }
+.atalho-cert { font-size: 14px; font-weight: 700; color: var(--verde-claro); text-decoration: none; }
+.atalho-cert:hover { text-decoration: underline; }
 .zerar { font-size: 12px; color: var(--suave); text-decoration: underline; align-self: flex-start; }
 .btn-menu { display: none; }
 
