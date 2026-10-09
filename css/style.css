@@ -177,6 +177,7 @@ h2 { font-size: clamp(28px, 3.4vw, 44px); line-height: 1.12; letter-spacing: -.0
   background: linear-gradient(90deg, var(--verde-claro), var(--dourado));
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
+.capa h1 .hl { display: inline-block; }
 .subtitulo { font-size: clamp(17px, 1.6vw, 21px); color: #c5d1de; max-width: 760px; margin-bottom: 28px; }
 .nota { color: var(--suave); font-size: 14px; }
 
@@ -260,6 +261,15 @@ h2 { font-size: clamp(28px, 3.4vw, 44px); line-height: 1.12; letter-spacing: -.0
 .janela-barra span { margin-left: 8px; font-family: var(--mono); font-size: 12px; color: var(--suave); }
 
 .tilt { transform-style: preserve-3d; }
+
+/* brilho menta que segue o mouse dentro do cartão: o JS atualiza --mx e --my */
+.brilho-mouse { position: relative; overflow: hidden; }
+.brilho-mouse::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(126, 226, 184, .13), transparent 60%);
+  opacity: 0; transition: opacity .3s;
+}
+.brilho-mouse:hover::after { opacity: 1; }
 
 /* ============ 0. Boas-vindas ============ */
 .capa { padding-top: clamp(100px, 14vh, 140px); }

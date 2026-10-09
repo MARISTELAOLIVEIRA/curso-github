@@ -257,18 +257,87 @@ setInterval(() => {
   setTimeout(() => selo.classList.remove("virado"), 2200);
 }, 9000);
 
-// cartões .tilt inclinam em 3D com o mouse
+// ----------------------------------------------------------
+// EFEITOS DE MOUSE (os mesmos do site do workshop)
+// Em telas de toque (celular) não existe "passar o mouse", então ficam desligados.
+// ----------------------------------------------------------
 if (!matchMedia("(hover: none)").matches) {
-  $$(".tilt").forEach((card) => {
+  // BOTÕES MAGNÉTICOS: são "puxados" na direção do mouse
+  $$(".btn-primario, .btn-concluir").forEach((btn) => {
+    btn.addEventListener("pointermove", (e) => {
+      const r = btn.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+      btn.style.transform = `translate(${dx * 0.22}px, ${dy * 0.32}px)`;
+    });
+    btn.addEventListener("pointerleave", () => (btn.style.transform = ""));
+  });
+
+  // BRILHO QUE SEGUE O MOUSE dentro dos cartões (o CSS usa --mx e --my, ver .brilho-mouse).
+  // PARA EDITAR: quais cartões brilham e quais também inclinam em 3D.
+  const BRILHAM = ".tilt, .mini-cartao, .info-item, .trilha a, .regra, .ciclo-passo, .glossario div, .pratica";
+  const INCLINAM = ".tilt, .mini-cartao, .trilha a, .ciclo-passo";
+  $$(BRILHAM).forEach((card) => {
+    card.classList.add("brilho-mouse");
+    const inclina = card.matches(INCLINAM);
     card.addEventListener("pointermove", (e) => {
       const r = card.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
-      card.style.transition = "transform .08s";
-      card.style.transform = `perspective(800px) rotateY(${px * 10}deg) rotateX(${-py * 10}deg)`;
+      const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;   // 0 a 1
+      card.style.setProperty("--mx", `${px * 100}%`);
+      card.style.setProperty("--my", `${py * 100}%`);
+      if (inclina) {
+        card.style.transition = "transform .08s";
+        card.style.transform = `perspective(800px) rotateY(${(px - 0.5) * 12}deg) rotateX(${(0.5 - py) * 12}deg) translateZ(4px)`;
+      }
     });
-    card.addEventListener("pointerleave", () => { card.style.transition = "transform .6s"; card.style.transform = ""; });
+    card.addEventListener("pointerleave", () => {
+      if (inclina) { card.style.transition = "transform .6s cubic-bezier(.2,.8,.2,1)"; card.style.transform = ""; }
+    });
   });
 }
+
+// ----------------------------------------------------------
+// TEXTO EMBARALHADO: as letras viram caracteres aleatórios e vão se acertando
+// da esquerda para a direita. embaralhar(elemento, "texto final")
+// ----------------------------------------------------------
+function embaralhar(el, final = el.textContent) {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*{}[]<>/=+";
+  const total = 26;
+  let quadro = 0;
+  clearInterval(el._embaralhando);
+  el._embaralhando = setInterval(() => {
+    el.textContent = [...final].map((c, i) =>
+      c === " " || i < (quadro / total) * final.length ? c : chars[Math.floor(Math.random() * chars.length)]).join("");
+    if (++quadro > total) { clearInterval(el._embaralhando); el.textContent = final; }
+  }, 38);
+}
+
+// PARA EDITAR: as palavras que se alternam em "Do zero ao seu ___ no GitHub"
+const PALAVRAS_CAPA = ["portfólio", "primeiro site", "primeiro commit", "primeiro PR"];
+(function tituloDaCapa() {
+  const el = $(".capa h1 .hl");
+  if (!el) return;
+  let i = 0;
+  setTimeout(() => embaralhar(el, PALAVRAS_CAPA[0]), 500);
+  if (MOVIMENTO_REDUZIDO) return;
+  setInterval(() => {
+    if (scrollY > innerHeight) return;            // só troca enquanto a capa está na tela
+    i = (i + 1) % PALAVRAS_CAPA.length;
+    embaralhar(el, PALAVRAS_CAPA[i]);
+  }, 3800);
+})();
+
+// a palavra colorida do título de cada módulo se embaralha quando o módulo
+// aparece pela primeira vez e quando o mouse passa por cima
+$$(".modulo-topo h2 .hl").forEach((el) => {
+  const final = el.textContent;
+  el.addEventListener("mouseenter", () => embaralhar(el, final));
+  const obs = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    setTimeout(() => embaralhar(el, final), 350);
+    obs.disconnect();                              // só na primeira vez
+  }, { threshold: 1 });
+  obs.observe(el);
+});
 
 // FUNDO: rede de "commits" no estilo do gráfico de contribuições do GitHub.
 // Quadradinhos verdes se movem e se ligam quando ficam perto; o mouse empurra os
