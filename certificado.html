@@ -88,7 +88,15 @@
     .cert-rodape { display: grid; grid-template-columns: 1fr 1.3fr 1fr; align-items: end; gap: 20px; position: relative; z-index: 1; font-size: 13px; color: #4b5563; }
     .cert-rodape b { color: #111827; }
     .assinatura { text-align: center; }
-    .assinatura .memoji { height: 46px; margin-bottom: -4px; }
+    /* memoji num círculo, ao lado da assinatura (que fica em cima da linha) */
+    .assinatura-topo { position: relative; display: flex; justify-content: center; align-items: flex-end; min-height: 60px; }
+    .assinatura .rubrica { height: 64px; max-width: 260px; object-fit: contain; margin-bottom: -6px; }
+    .assinatura .memoji {
+      height: 52px; width: 52px; border-radius: 50%; object-fit: cover; object-position: top;
+      background: radial-gradient(circle at 35% 30%, #c8f2dc, #7ee2b8); box-shadow: 0 0 0 2px #1a7f37, 0 0 0 4px rgba(201,162,39,.6);
+    }
+    /* com assinatura, o memoji sai do centro e vai para a esquerda dela */
+    .assinatura-topo:has(.rubrica) .memoji { position: absolute; left: 0; bottom: 4px; }
     .assinatura .linha { border-top: 1.5px solid #374151; padding-top: 6px; margin-top: 2px; }
     .link-prof { color: #0a66c2; font-size: 12px; text-decoration: none; font-family: var(--mono); }
     .verificado { text-align: right; }
@@ -143,6 +151,7 @@
      ========================================================== */
   const CONFIG = {
     professora: "Profª Maristela Oliveira",
+    assinatura: "assets/assinatura.png",   // imagem da assinatura (fundo transparente), ex.: "assets/assinatura.png"
     // nomes que o aluno digita depois do @ para marcar no LinkedIn
     mencaoProfessora: "Maristela Oliveira",
     mencaoFaculdade: "Faculdade Senac DF",
@@ -256,7 +265,10 @@
           <div class="cert-rodape">
             <div>Concluído em<br><b>${dataBR(data)}</b></div>
             <div class="assinatura">
-              <img class="memoji" src="assets/memoji.png" alt="">
+              <div class="assinatura-topo">
+                <img class="memoji" src="assets/memoji.png" alt="">
+                ${CONFIG.assinatura ? `<img class="rubrica" src="${CONFIG.assinatura}" alt="Assinatura">` : ""}
+              </div>
               <div class="linha"><b>${escapar(CONFIG.professora)}</b><br>${escapar(CONFIG.faculdade)}
                 ${CONFIG.linkedinProfessora ? `<br><a class="link-prof" href="${CONFIG.linkedinProfessora}" target="_blank" rel="noopener">in/${escapar(CONFIG.linkedinProfessora.split("/in/")[1].replace(/\/$/, ""))}</a>` : ""}</div>
             </div>
