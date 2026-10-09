@@ -312,7 +312,7 @@ function embaralhar(el, final = el.textContent) {
 }
 
 // PARA EDITAR: as palavras que se alternam em "Do zero ao seu ___ no GitHub"
-const PALAVRAS_CAPA = ["portfólio", "primeiro site", "primeiro commit", "primeiro PR"];
+const PALAVRAS_CAPA = ["portfólio", "primeiro site", "primeiro commit", "primeiro projeto"];
 (function tituloDaCapa() {
   const el = $(".capa h1 .hl");
   if (!el) return;
