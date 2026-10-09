@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel da turma · GitHub na Prática</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <!--
+    PAINEL DA TURMA (para a TV da sala)
+    Mostra quem começou os cursos práticos e em que passo cada aluno está.
+    De onde vêm os dados: cada aluno tem uma issue aberta pelo robô do curso, com
+    a etiqueta do passo (passo-1, passo-2... ou concluido). O painel encontra essas
+    issues pela busca pública do GitHub, sem login.
+
+    Endereços úteis:
+      painel.html                 alunos que começaram HOJE
+      painel.html?desde=2026-10-20  alunos que começaram desde essa data
+      painel.html?demo=1          modo demonstração, com alunos de mentira
+
+    PARA EDITAR: a lista CURSOS e os tempos em CONFIG, no <script> lá embaixo.
+  -->
+  <style>
+    :root {
+      --bg: #0b1016; --painel: #141c27; --borda: rgba(140,170,200,.16);
+      --texto: #e6edf3; --suave: #9aa8b8;
+      --verde: #3fb950; --verde-claro: #7ee2b8; --dourado: #e3c26b; --amarelo: #f2b84b; --roxo: #a371f7;
+      --sans: "Space Grotesk", "Segoe UI", system-ui, sans-serif; --mono: "JetBrains Mono", Consolas, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* tudo é medido em vw (largura da tela): fica proporcional em qualquer TV */
+    html { font-size: clamp(12px, 0.95vw, 22px); }
+    body {
+      font-family: var(--sans); color: var(--texto); min-height: 100vh; overflow-x: hidden;
+      background: radial-gradient(1200px 700px at 90% -10%, rgba(63,185,80,.14), transparent 60%),
+                  radial-gradient(900px 600px at 0% 110%, rgba(163,113,247,.12), transparent 60%), var(--bg);
+      padding: 1.6rem 2rem;
+    }
+    #confete { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
+
+    /* ---------- topo ---------- */
+    .topo { display: flex; align-items: center; gap: 1.4rem; margin-bottom: 1.4rem; }
+    .topo img { width: 3.6rem; filter: drop-shadow(0 0 10px rgba(227,194,107,.5)); }
+    .topo h1 { font-size: 2.2rem; line-height: 1.1; }
+    .topo h1 span { background: linear-gradient(90deg, var(--verde-claro), var(--dourado)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .topo p { color: var(--suave); font-size: 1rem; }
+    .topo-dir { margin-left: auto; display: flex; align-items: center; gap: 1.2rem; text-align: right; }
+    .relogio { font-family: var(--mono); font-size: 2.2rem; font-weight: 700; }
+    .atualizacao { font-size: .9rem; color: var(--suave); }
+    .atualizacao b { color: var(--verde-claro); font-family: var(--mono); }
+    .prof { width: 3.8rem; height: 3.8rem; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #5fd08a, #1f7a4a 55%, #10402a); box-shadow: 0 0 0 3px rgba(227,194,107,.6); position: relative; flex: none; }
+    .prof img { position: absolute; left: 50%; bottom: 0; width: 118%; transform: translateX(-50%); }
+    .demo-aviso { background: var(--roxo); color: #fff; font-weight: 700; padding: .3rem .8rem; border-radius: 999px; font-size: .9rem; }
+
+    /* ---------- resumo por curso ---------- */
+    .cursos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.4rem; }
+    .curso { background: var(--painel); border: 1px solid var(--borda); border-radius: 1rem; padding: 1rem 1.2rem; }
+    .curso-topo { display: flex; align-items: baseline; gap: .6rem; margin-bottom: .6rem; }
+    .curso-topo b { font-size: 1.3rem; }
+    .curso-topo span { margin-left: auto; color: var(--suave); font-size: 1rem; }
+    .curso-topo span strong { color: var(--verde-claro); font-size: 1.4rem; font-family: var(--mono); }
+    /* barra com quantos alunos estão em cada passo */
+    .distribuicao { display: flex; height: 1.9rem; border-radius: .6rem; overflow: hidden; background: rgba(255,255,255,.05); }
+    .distribuicao div { display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .95rem; color: #08110b; transition: flex-grow .8s ease; min-width: 0; overflow: hidden; }
+    .legenda { display: flex; gap: .8rem; margin-top: .4rem; font-size: .85rem; color: var(--suave); flex-wrap: wrap; }
+    .legenda i { display: inline-block; width: .7rem; height: .7rem; border-radius: 3px; margin-right: .3rem; vertical-align: -1px; }
+
+    /* ---------- alunos ---------- */
+    .secao { display: flex; align-items: baseline; gap: .8rem; margin: .6rem 0 .8rem; }
+    .secao h2 { font-size: 1.4rem; }
+    .secao span { color: var(--suave); }
+    .alunos { display: grid; grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr)); gap: .9rem; }
+    .aluno {
+      background: var(--painel); border: 2px solid var(--borda); border-radius: 1rem; padding: .9rem 1rem;
+      display: flex; flex-direction: column; gap: .6rem; text-decoration: none; color: inherit;
+      transition: border-color .4s, transform .4s; animation: entrar .5s ease both;
+    }
+    @keyframes entrar { from { opacity: 0; transform: translateY(12px) scale(.97); } }
+    .aluno.parado { border-color: var(--amarelo); box-shadow: 0 0 0 3px rgba(242,184,75,.15); animation: entrar .5s ease both, pulsar 2.4s ease-in-out infinite; }
+    @keyframes pulsar { 50% { box-shadow: 0 0 0 7px rgba(242,184,75,.06); } }
+    .aluno.concluiu-tudo { border-color: rgba(63,185,80,.6); }
+    .aluno-topo { display: flex; align-items: center; gap: .7rem; }
+    .aluno-topo img { width: 2.8rem; height: 2.8rem; border-radius: 50%; background: #222c3a; flex: none; }
+    .aluno-nome { font-weight: 700; font-size: 1.15rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .selo-parado { margin-left: auto; flex: none; background: rgba(242,184,75,.16); color: var(--amarelo); font-weight: 700; font-size: .85rem; padding: .2rem .6rem; border-radius: 999px; }
+    .linha { display: grid; grid-template-columns: 1.6rem 1fr auto; align-items: center; gap: .5rem; font-size: .95rem; }
+    .linha-passos { display: flex; gap: .25rem; }
+    .linha-passos i { flex: 1; height: .65rem; border-radius: 99px; background: rgba(255,255,255,.08); }
+    .linha-passos i.feito { background: var(--verde); }
+    .linha-passos i.atual { background: var(--dourado); animation: piscar 1.6s ease-in-out infinite; }
+    .linha.parada .linha-passos i.atual { background: var(--amarelo); }
+    @keyframes piscar { 50% { opacity: .45; } }
+    .linha-texto { font-family: var(--mono); color: var(--suave); font-size: .85rem; white-space: nowrap; }
+    .linha.ok .linha-texto { color: var(--verde-claro); }
+    .vazio { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--suave); font-size: 1.3rem; border: 2px dashed var(--borda); border-radius: 1rem; }
+    .vazio b { color: var(--texto); }
+
+    /* ---------- avisos (conclusões) ---------- */
+    .avisos { position: fixed; right: 2rem; bottom: 2rem; display: flex; flex-direction: column; gap: .7rem; z-index: 60; }
+    .aviso {
+      display: flex; align-items: center; gap: .8rem; padding: .9rem 1.3rem; border-radius: 1rem;
+      background: linear-gradient(135deg, #1f6f3a, #2b8a4b); box-shadow: 0 14px 40px rgba(0,0,0,.5);
+      font-size: 1.25rem; font-weight: 700; animation: avisar 7s ease both;
+    }
+    .aviso img { width: 2.6rem; height: 2.6rem; border-radius: 50%; }
+    @keyframes avisar { 0% { opacity: 0; transform: translateX(40px); } 8%, 88% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateX(40px); } }
+    .erro { margin-top: 1rem; color: var(--amarelo); font-size: 1rem; }
+    @media (max-width: 900px) { .cursos { grid-template-columns: 1fr; } .topo { flex-wrap: wrap; } .topo-dir { margin-left: 0; } }
+  </style>
+</head>
+<body>
+  <canvas id="confete" aria-hidden="true"></canvas>
+
+  <header class="topo">
+    <img src="assets/estrela.png" alt="">
+    <div>
+      <h1>Painel da turma · <span>GitHub na Prática</span></h1>
+      <p id="subtitulo">Alunos que começaram hoje</p>
+    </div>
+    <div class="topo-dir">
+      <span class="demo-aviso" id="demo-aviso" hidden>MODO DEMONSTRAÇÃO</span>
+      <div>
+        <div class="relogio" id="relogio">--:--</div>
+        <div class="atualizacao">atualiza em <b id="contagem">--</b> s</div>
+      </div>
+      <div class="prof"><img src="assets/memoji.png" alt="Profª Stela"></div>
+    </div>
+  </header>
+
+  <section class="cursos" id="cursos"></section>
+
+  <div class="secao"><h2>👩‍🎓 Alunos</h2><span id="resumo-alunos"></span></div>
+  <section class="alunos" id="alunos"></section>
+  <p class="erro" id="erro" hidden></p>
+
+  <div class="avisos" id="avisos" aria-live="polite"></div>
+
+  <script>
+  /* ==========================================================
+     PARA EDITAR
+     ========================================================== */
+  // Os cursos práticos: o título é o da issue que o robô abre (sem o emoji).
+  const CURSOS = [
+    { id: "entrega", icone: "⭐", nome: "Primeira entrega", titulo: "Minha primeira entrega", passos: 4, cor: "#e3c26b" },
+    { id: "vscode",  icone: "💻", nome: "Git no VS Code",   titulo: "Git no VS Code",         passos: 4, cor: "#58a6ff" },
+    { id: "equipe",  icone: "👥", nome: "Trabalho em equipe", titulo: "Trabalho em equipe",   passos: 5, cor: "#a371f7" },
+  ];
+  const CONFIG = {
+    atualizarACada: 60,     // segundos entre uma atualização e outra (a busca do GitHub aceita 10 por minuto)
+    paradoDepoisDe: 8,      // minutos no mesmo passo para o aluno aparecer como "parado" (em amarelo)
+    rolarACada: 12,         // segundos entre uma "página" e outra quando os alunos não cabem na tela
+  };
+
+  /* ==========================================================
+     LEITURA DO ENDEREÇO (?desde=AAAA-MM-DD, ?demo=1)
+     ========================================================== */
+  const $ = (s) => document.querySelector(s);
+  const params = new URLSearchParams(location.search);
+  const DEMO = params.has("demo");
+  const hoje = new Date().toLocaleDateString("en-CA");   // AAAA-MM-DD no fuso do computador
+  const DESDE = /^\d{4}-\d{2}-\d{2}$/.test(params.get("desde") || "") ? params.get("desde") : hoje;
+  $("#subtitulo").textContent = DESDE === hoje ? "Alunos que começaram hoje" : `Alunos que começaram desde ${DESDE.split("-").reverse().join("/")}`;
+  $("#demo-aviso").hidden = !DEMO;
+
+  /* ==========================================================
+     BUSCA NO GITHUB
+     ========================================================== */
+  // Para cada curso, busca as issues abertas pelo robô (etiqueta "curso" + título do curso).
+  // Devolve: [{ login, curso, passo, concluido, atualizado, url }]
+  async function buscarCurso(curso) {
+    const q = `is:issue label:curso in:title "${curso.titulo}" created:>=${DESDE}`;
+    const resp = await fetch(`https://api.github.com/search/issues?per_page=100&sort=updated&q=${encodeURIComponent(q)}`,
+      { headers: { Accept: "application/vnd.github+json" } });
+    if (!resp.ok) {
+      const espera = Math.max(5, Number(resp.headers.get("x-ratelimit-reset") || 0) - Date.now() / 1000);
+      throw new Error(resp.status === 403 || resp.status === 429
+        ? `O GitHub pediu uma pausa (limite de buscas). Tento de novo em ${Math.ceil(espera)} s.`
+        : `Não consegui falar com o GitHub (erro ${resp.status}).`);
+    }
+    const dados = await resp.json();
+    return dados.items
+      // só as issues abertas pelo robô, com o título exato do curso
+      .filter((it) => it.user && it.user.login === "github-actions[bot]" && it.title.includes(curso.titulo))
+      .map((it) => {
+        const nomes = it.labels.map((l) => l.name);
+        const concluido = nomes.includes("concluido");
+        const passo = concluido ? curso.passos + 1 : Number((nomes.find((n) => /^passo-\d+$/.test(n)) || "passo-1").split("-")[1]);
+        return {
+          login: it.repository_url.split("/").slice(-2)[0],   // dono do repositório = o aluno
+          curso: curso.id, passo, concluido,
+          atualizado: new Date(it.updated_at), url: it.html_url,
+        };
+      });
+  }
+
+  /* ==========================================================
+     MODO DEMONSTRAÇÃO: alunos de mentira que avançam sozinhos
+     ========================================================== */
+  const NOMES_DEMO = ["ana-souza", "bruno-lima", "camila-rocha", "diego-alves", "eduarda-dias", "felipe-gomes", "gabi-martins",
+    "henrique-costa", "isabela-reis", "joao-pedro-s", "larissa-melo", "lucas-araujo", "mariana-teles", "otavio-nunes", "paula-freitas", "rafael-pinto"];
+  // ?demo=40 cria 40 alunos de mentira (para testar turmas grandes)
+  const QTD_DEMO = Math.max(NOMES_DEMO.length, Number(params.get("demo")) || 0);
+  for (let i = NOMES_DEMO.length; i < QTD_DEMO; i++) NOMES_DEMO.push(`aluno-${String(i + 1).padStart(2, "0")}`);
+  let demoEstado = null;
+  function dadosDemo() {
+    const agora = Date.now();
+    if (!demoEstado) {
+      demoEstado = [];
+      NOMES_DEMO.forEach((login, i) => {
+        demoEstado.push({ login, curso: "entrega", passo: 1 + (i % 5), atualizado: agora - (i % 4 === 0 ? 11 : i % 7) * 60000 });
+        if (i % 3 === 0) demoEstado.push({ login, curso: "vscode", passo: 1 + (i % 4), atualizado: agora - (i % 5) * 60000 });
+        if (i % 4 === 1) demoEstado.push({ login, curso: "equipe", passo: 1 + (i % 3), atualizado: agora - 3 * 60000 });
+      });
+    } else {
+      // a cada atualização, alguns alunos avançam um passo
+      demoEstado.forEach((r) => {
+        const total = CURSOS.find((c) => c.id === r.curso).passos;
+        if (r.passo <= total && Math.random() < 0.25) { r.passo++; r.atualizado = agora; }
+      });
+    }
+    return demoEstado.map((r) => {
+      const total = CURSOS.find((c) => c.id === r.curso).passos;
+      return { ...r, concluido: r.passo > total, atualizado: new Date(r.atualizado), url: "#" };
+    });
+  }
+
+  /* ==========================================================
+     DESENHO DA TELA
+     ========================================================== */
+  const minutosDesde = (data) => Math.floor((Date.now() - data) / 60000);
+  // foto do aluno no GitHub; na demonstração, um círculo colorido com as iniciais
+  const avatar = (login) => DEMO ? iniciais(login) : `https://github.com/${login}.png?size=96`;
+  function iniciais(login) {
+    const letras = login.split("-").slice(0, 2).map((p) => p[0].toUpperCase()).join("");
+    const cor = `hsl(${[...login].reduce((s, c) => s + c.charCodeAt(0), 0) % 360} 55% 45%)`;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="${cor}"/><text x="32" y="41" font-family="Arial" font-size="26" font-weight="700" fill="#fff" text-anchor="middle">${letras}</text></svg>`;
+    return "data:image/svg+xml," + encodeURIComponent(svg);
+  }
+  const escapar = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const CORES_PASSO = ["#3a4656", "#55657a", "#7d8ea3", "#a9b8c8", "#cfd9e3"];   // passos em andamento (do cinza ao claro)
+
+  function desenharCursos(registros) {
+    $("#cursos").innerHTML = CURSOS.map((c) => {
+      const deste = registros.filter((r) => r.curso === c.id);
+      const concluidos = deste.filter((r) => r.concluido).length;
+      // quantos alunos em cada passo (1..N) + concluídos
+      const fatias = [];
+      for (let p = 1; p <= c.passos; p++) {
+        const n = deste.filter((r) => !r.concluido && r.passo === p).length;
+        if (n) fatias.push(`<div style="flex-grow:${n};background:${CORES_PASSO[p - 1]}" title="Passo ${p}">${n}</div>`);
+      }
+      if (concluidos) fatias.push(`<div style="flex-grow:${concluidos};background:var(--verde)" title="Concluíram">${concluidos} ✔</div>`);
+      return `<div class="curso">
+        <div class="curso-topo"><b>${c.icone} ${c.nome}</b><span><strong>${deste.length}</strong> ${deste.length === 1 ? "começou" : "começaram"} · <strong>${concluidos}</strong> ${concluidos === 1 ? "concluiu" : "concluíram"}</span></div>
+        <div class="distribuicao">${fatias.join("") || ""}</div>
+        <div class="legenda">${Array.from({ length: c.passos }, (_, i) => `<span><i style="background:${CORES_PASSO[i]}"></i>passo ${i + 1}</span>`).join("")}<span><i style="background:var(--verde)"></i>concluído</span></div>
+      </div>`;
+    }).join("");
+  }
+
+  function desenharAlunos(registros) {
+    // agrupa por aluno
+    const porAluno = new Map();
+    registros.forEach((r) => {
+      if (!porAluno.has(r.login)) porAluno.set(r.login, []);
+      porAluno.get(r.login).push(r);
+    });
+    const alunos = [...porAluno.entries()].map(([login, regs]) => {
+      const emAndamento = regs.filter((r) => !r.concluido);
+      const parados = emAndamento.filter((r) => minutosDesde(r.atualizado) >= CONFIG.paradoDepoisDe);
+      const maisParado = parados.length ? Math.max(...parados.map((r) => minutosDesde(r.atualizado))) : 0;
+      return { login, regs, parado: parados.length > 0, maisParado, tudoConcluido: emAndamento.length === 0 };
+    });
+    // ordem: parados primeiro (os há mais tempo em cima), depois em andamento, depois quem já concluiu tudo
+    alunos.sort((a, b) => (b.parado - a.parado) || (b.maisParado - a.maisParado) || (a.tudoConcluido - b.tudoConcluido) || a.login.localeCompare(b.login));
+
+    const nParados = alunos.filter((a) => a.parado).length;
+    $("#resumo-alunos").textContent = alunos.length
+      ? `${alunos.length} no total${nParados ? ` · ${nParados} talvez precisem de ajuda` : ""}`
+      : "";
+
+    if (!alunos.length) {
+      $("#alunos").innerHTML = `<div class="vazio">Ninguém começou ainda. 😴<br>Assim que um aluno clicar em <b>Use this template</b>, ele aparece aqui.</div>`;
+      return;
+    }
+    $("#alunos").innerHTML = alunos.map((a) => {
+      const linhas = CURSOS.map((c) => {
+        const r = a.regs.find((x) => x.curso === c.id);
+        if (!r) return "";
+        const parada = !r.concluido && minutosDesde(r.atualizado) >= CONFIG.paradoDepoisDe;
+        const segmentos = Array.from({ length: c.passos }, (_, i) =>
+          `<i class="${i + 1 < r.passo ? "feito" : i + 1 === r.passo ? "atual" : ""}"></i>`).join("");
+        const texto = r.concluido ? "concluído ✔" : `passo ${r.passo}/${c.passos}`;
+        return `<div class="linha ${r.concluido ? "ok" : ""} ${parada ? "parada" : ""}" title="${c.nome}">
+          <span>${c.icone}</span><div class="linha-passos">${segmentos}</div><span class="linha-texto">${texto}</span></div>`;
+      }).join("");
+      const link = a.regs[0].url;
+      return `<a class="aluno ${a.parado ? "parado" : ""} ${a.tudoConcluido ? "concluiu-tudo" : ""}" href="${link}" target="_blank" rel="noopener">
+        <div class="aluno-topo">
+          <img src="${avatar(a.login)}" alt="" loading="lazy">
+          <span class="aluno-nome">@${escapar(a.login)}</span>
+          ${a.parado ? `<span class="selo-parado">⏳ ${a.maisParado} min</span>` : a.tudoConcluido ? `<span class="selo-parado" style="background:rgba(63,185,80,.18);color:var(--verde-claro)">🏆</span>` : ""}
+        </div>
+        ${linhas}
+      </a>`;
+    }).join("");
+  }
+
+  /* ==========================================================
+     AVISOS DE CONCLUSÃO + CONFETE
+     ========================================================== */
+  let concluidosAntes = null;   // na primeira carga, não comemora quem já tinha terminado
+  function comemorarNovos(registros) {
+    const agora = new Set(registros.filter((r) => r.concluido).map((r) => `${r.login}|${r.curso}`));
+    if (concluidosAntes) {
+      [...agora].filter((k) => !concluidosAntes.has(k)).forEach((k, i) => {
+        const [login, cursoId] = k.split("|");
+        const curso = CURSOS.find((c) => c.id === cursoId);
+        setTimeout(() => {
+          const el = document.createElement("div");
+          el.className = "aviso";
+          el.innerHTML = `<img src="${avatar(login)}" alt=""> 🎉 @${escapar(login)} concluiu ${curso.icone} ${curso.nome}!`;
+          $("#avisos").appendChild(el);
+          setTimeout(() => el.remove(), 7000);
+          confete(160);
+        }, i * 1500);
+      });
+    }
+    concluidosAntes = agora;
+  }
+
+  const canvas = $("#confete"), ctx = canvas.getContext("2d");
+  let pedacos = [], animando = false;
+  function confete(qtd) {
+    canvas.width = innerWidth; canvas.height = innerHeight;
+    const cores = ["#3fb950", "#7ee2b8", "#e3c26b", "#a371f7", "#58a6ff", "#ffffff"];
+    for (let i = 0; i < qtd; i++) {
+      pedacos.push({ x: Math.random() * innerWidth, y: -20 - Math.random() * innerHeight * 0.3, vx: (Math.random() - 0.5) * 3, vy: 2 + Math.random() * 4,
+        w: 8 + Math.random() * 8, h: 10 + Math.random() * 10, cor: cores[i % cores.length], giro: Math.random() * 6, vg: (Math.random() - 0.5) * 0.3 });
+    }
+    if (!animando) { animando = true; requestAnimationFrame(animar); }
+  }
+  function animar() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pedacos.forEach((p) => {
+      p.x += p.vx; p.y += p.vy; p.vy += 0.05; p.giro += p.vg;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.giro); ctx.fillStyle = p.cor;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h * Math.abs(Math.cos(p.giro))); ctx.restore();
+    });
+    pedacos = pedacos.filter((p) => p.y < canvas.height + 30);
+    if (pedacos.length) requestAnimationFrame(animar); else { animando = false; ctx.clearRect(0, 0, canvas.width, canvas.height); }
+  }
+
+  /* ==========================================================
+     CICLO: busca → desenha → espera → busca de novo
+     ========================================================== */
+  let segundos = 0;
+  async function atualizar() {
+    try {
+      const registros = DEMO ? dadosDemo() : (await Promise.all(CURSOS.map(buscarCurso))).flat();
+      desenharCursos(registros);
+      desenharAlunos(registros);
+      comemorarNovos(registros);
+      $("#erro").hidden = true;
+    } catch (e) {
+      $("#erro").textContent = "⚠️ " + e.message;
+      $("#erro").hidden = false;
+    }
+    segundos = DEMO ? 12 : CONFIG.atualizarACada;   // na demonstração, mais rápido
+  }
+
+  // ROLAGEM AUTOMÁTICA (TV não tem mouse): se os alunos não cabem na tela, desce uma
+  // "página" a cada CONFIG.rolarACada segundos e, no fim, volta ao topo (onde ficam os parados).
+  // Mexeu no mouse ou no teclado? A rolagem automática pausa por 1 minuto.
+  let pausaRolagemAte = 0;
+  ["wheel", "keydown", "mousemove", "touchstart"].forEach((ev) => addEventListener(ev, () => (pausaRolagemAte = Date.now() + 60000), { passive: true }));
+  setInterval(() => {
+    if (Date.now() < pausaRolagemAte) return;
+    const fim = document.documentElement.scrollHeight - innerHeight;
+    if (fim <= 10) return;                                   // cabe tudo: nada a fazer
+    const proximo = scrollY >= fim - 10 ? 0 : Math.min(fim, scrollY + innerHeight * 0.8);
+    scrollTo({ top: proximo, behavior: "smooth" });
+  }, CONFIG.rolarACada * 1000);
+
+  setInterval(() => {
+    $("#relogio").textContent = new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+    segundos--;
+    $("#contagem").textContent = Math.max(0, segundos);
+    if (segundos === 0) atualizar();
+  }, 1000);
+  atualizar();
+  </script>
+</body>
+</html>

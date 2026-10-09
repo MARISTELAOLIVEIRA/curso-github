@@ -17,6 +17,22 @@ Profª Maristela Oliveira (Stela).
 
 O progresso do aluno fica salvo no navegador dele (localStorage). A chave **Windows/Mac** no menu troca as instruções e os atalhos.
 
+## 📺 Painel da turma (para a TV da sala)
+
+[`painel.html`](https://maristelaoliveira.github.io/curso-github/painel.html) mostra, ao vivo, quem começou os cursos práticos e em que passo cada aluno está. Atualiza sozinho a cada minuto.
+
+- **Em amarelo, no topo:** alunos parados no mesmo passo há 8 minutos ou mais (talvez precisem de ajuda)
+- **Quando alguém conclui um curso:** aviso na tela com confete 🎉
+- **Turma grande:** o painel rola sozinho e volta ao topo
+
+| Endereço | Mostra |
+|---|---|
+| `painel.html` | Alunos que começaram hoje |
+| `painel.html?desde=2026-10-20` | Alunos que começaram desde essa data |
+| `painel.html?demo=1` | Demonstração com alunos de mentira (`?demo=40` para uma turma grande) |
+
+Os dados vêm da busca pública do GitHub (as issues que o robô abre em cada repositório de aluno), sem precisar de login. Só aparecem repositórios **públicos**.
+
 ## Como editar
 
 | Quero mudar... | Onde |
