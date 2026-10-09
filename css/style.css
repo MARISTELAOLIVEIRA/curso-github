@@ -68,6 +68,13 @@ body.so-win .so-mac, body.so-mac .so-win { display: none !important; }
 /* ============ Fundo animado e confete ============ */
 #fundo, #confete { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 #fundo { z-index: 0; }
+/* brilho verde que segue o mouse (movido pelo JS) */
+.cursor-glow {
+  position: fixed; left: 0; top: 0; width: 420px; height: 420px; border-radius: 50%;
+  pointer-events: none; z-index: 1; opacity: 0; transition: opacity .3s;
+  background: radial-gradient(circle, rgba(63, 185, 80, .16), transparent 65%);
+}
+body.mouse-ativo .cursor-glow { opacity: 1; }
 #confete { z-index: 90; }
 
 /* ============ Selo da professora (igual ao do workshop) ============ */
