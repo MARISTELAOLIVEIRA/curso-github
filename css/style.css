@@ -181,6 +181,8 @@ h2 { font-size: clamp(28px, 3.4vw, 44px); line-height: 1.12; letter-spacing: -.0
 }
 .capa h1 .hl { display: inline-block; }
 .subtitulo { font-size: clamp(17px, 1.6vw, 21px); color: #c5d1de; max-width: 760px; margin-bottom: 28px; }
+/* uma linha a mais logo abaixo do subtítulo da capa */
+.subtitulo-extra { font-size: clamp(14px, 1.3vw, 16px); color: var(--suave); max-width: 760px; margin: -12px 0 28px; }
 .nota { color: var(--suave); font-size: 14px; }
 
 /* animação de entrada: elementos .reveal aparecem quando o módulo entra na tela
