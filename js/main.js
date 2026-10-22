@@ -880,7 +880,7 @@ $("#md-baixar").addEventListener("click", () => {
   a.click();
   URL.revokeObjectURL(url);
 });
-mdEntrada.value = modeloReadme({ projeto: "Calculadora de Médias", descricao: "Calcula a média final de duas notas e mostra se o aluno foi aprovado.", rodar: "Abra o arquivo `index.html` no navegador.", autor: "Maria Silva", curso: "Análise e Desenvolvimento de Sistemas", disciplina: "Programação Web" });
+mdEntrada.value = modeloReadme({ projeto: "Calculadora de Médias", descricao: "Calcula a média final de duas notas e mostra se o aluno foi aprovado.", rodar: "Abra o arquivo `index.html` no navegador.", autor: "Maria Silva", curso: "Seu curso", disciplina: "Sua disciplina" });
 // espera as bibliotecas (carregadas com defer) antes da primeira renderização
 window.addEventListener("load", renderizarMarkdown);
 renderizarMarkdown();
