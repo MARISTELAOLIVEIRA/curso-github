@@ -544,3 +544,21 @@ h2 { font-size: clamp(28px, 3.4vw, 44px); line-height: 1.12; letter-spacing: -.0
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   html { scroll-behavior: auto; }
 }
+
+
+/* ============ Memojis da Stela (reações do curso) ============ */
+.memoji-capa { display: block; width: clamp(88px, 10vw, 124px); height: auto; margin: 0 0 6px; filter: drop-shadow(0 10px 14px rgba(0,0,0,.4)); animation: memojiFlutua 5s ease-in-out infinite; }
+.memoji-titulo { height: 1.7em; width: auto; vertical-align: middle; margin-left: 8px; filter: drop-shadow(0 4px 6px rgba(0,0,0,.35)); }
+.final-memoji { display: block; width: 140px; height: auto; margin: 4px auto 10px; filter: drop-shadow(0 10px 16px rgba(0,0,0,.4)); animation: memojiFlutua 5s ease-in-out infinite; }
+.memoji-mini { float: left; width: 46px; height: auto; margin: -4px 10px 0 -2px; filter: drop-shadow(0 3px 5px rgba(0,0,0,.35)); }
+.quiz-topo .memoji-gabaritou { float: none; width: 40px; margin: -8px 0 -8px 8px; }
+.quiz-explica::after { content: ""; display: block; clear: both; }
+.memoji-sobe { position: fixed; width: 96px; height: auto; pointer-events: none; z-index: 200; transform: translate(-50%, -100%); filter: drop-shadow(0 8px 14px rgba(0,0,0,.45)); animation: memojiSobe 1.8s ease-out forwards; }
+@keyframes memojiFlutua { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes memojiSobe {
+  0%   { opacity: 0; transform: translate(-50%, -70%) scale(.6); }
+  18%  { opacity: 1; transform: translate(-50%, -120%) scale(1.05); }
+  80%  { opacity: 1; transform: translate(-50%, -150%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -190%) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) { .memoji-capa, .final-memoji { animation: none; } }

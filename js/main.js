@@ -164,8 +164,10 @@ $$(".btn-concluir").forEach((b) => b.addEventListener("click", () => {
   const r = b.getBoundingClientRect();
   if (memoria.feitos.length >= contaveis.length) {
     confete(260, innerWidth / 2, innerHeight * 0.7);   // terminou o curso!
+    memojiSobe("festa", innerWidth / 2, innerHeight * 0.6);
   } else {
     confete(70, r.left + r.width / 2, r.top);
+    memojiSobe("olhos-de-estrela", r.left + r.width / 2, r.top);
     // leva para o próximo módulo depois de um instante
     const proximo = modulos[modulos.findIndex((m) => m.id === id) + 1];
     if (proximo) setTimeout(() => proximo.scrollIntoView({ behavior: "smooth" }), 900);
@@ -458,6 +460,16 @@ $$(".modulo-topo h2 .hl").forEach((el) => {
     requestAnimationFrame(seguir);
   })();
 })();
+
+// MEMOJI QUE SOBE: memojiSobe("festa", x, y) mostra a Stela reagindo por um instante (não aparece com "reduzir movimento")
+function memojiSobe(nome, x, y) {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const img = document.createElement("img");
+  img.src = `assets/memoji/${nome}.webp`; img.alt = ""; img.className = "memoji-sobe";
+  img.style.left = x + "px"; img.style.top = y + "px";
+  document.body.appendChild(img);
+  setTimeout(() => img.remove(), 1900);
+}
 
 // CONFETE: confete(quantidade, x, y)
 const confeteCanvas = $("#confete");
@@ -799,6 +811,7 @@ function executar(linha) {
     s.comemorou = true;
     escrever(`\n<span class="ok">🏆 Todas as missões cumpridas! Esse é exatamente o ciclo que você vai usar todo dia.</span>\n<span class="cz">   Quer treinar mais? Digite editar e faça o ciclo de novo.</span>`);
     confete(140, innerWidth / 2, innerHeight * 0.6);
+    memojiSobe("joinha", innerWidth / 2, innerHeight * 0.55);
   }
 }
 
@@ -950,11 +963,14 @@ $$(".quiz").forEach((caixa) => {
       const certa = +b.dataset.i === q.certa;
       $$("button", bloco).forEach((x) => { x.disabled = true; if (+x.dataset.i === q.certa) x.classList.add("certa"); });
       if (!certa) b.classList.add("errada");
-      bloco.insertAdjacentHTML("beforeend", `<div class="quiz-explica">${certa ? "✅ Isso!" : "💡 Quase."} ${q.exp}</div>`);
+      bloco.insertAdjacentHTML("beforeend", `<div class="quiz-explica"><img class="memoji-mini" src="assets/memoji/${certa ? "sorrindo" : "ideia"}.webp" alt="">${certa ? "✅ Isso!" : "💡 Quase."} ${q.exp}</div>`);
       respondidas++; if (certa) acertos++;
       $(".quiz-placar", caixa).textContent = `${acertos} / ${perguntas.length}`;
       if (certa) { const r = b.getBoundingClientRect(); confete(25, r.left + 40, r.top); }
-      if (respondidas === perguntas.length && acertos === perguntas.length) avisar("🌟 Gabaritou!");
+      if (respondidas === perguntas.length && acertos === perguntas.length) {
+        avisar("🌟 Gabaritou!");
+        $(".quiz-topo", caixa).insertAdjacentHTML("beforeend", `<img class="memoji-mini memoji-gabaritou" src="assets/memoji/olhos-de-estrela.webp" alt="Stela de olhos de estrela: você gabaritou!">`);
+      }
     });
     caixa.appendChild(bloco);
   });
