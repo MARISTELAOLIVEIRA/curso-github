@@ -173,7 +173,7 @@
     linkedinFaculdade: "https://www.linkedin.com/school/faculdadesenacdf/",
     linkedinFaculdadeId: "",      // número da página da faculdade no LinkedIn (liga o certificado à página dela)
     serie: "GitHub na Prática",
-    linkedinSoNaTrilha: true,     // true: os botões do LinkedIn só aparecem no certificado da trilha completa
+    linkedinSoNaTrilha: false,    // false: todo certificado tem os botões do LinkedIn; true: só o da trilha completa
     // o evento em que os cursos foram feitos (aparece no certificado; deixe "" para esconder)
     evento: "Workshop GitHub na Prática: Como Transformar Seus Projetos em Portfólio",
     eventoComplemento: "",        // ex.: "Jornada Interdisciplinar 2026" (aparece embaixo do nome do evento)
@@ -298,7 +298,7 @@
           <button class="btn btn-ghost" id="btn-link">🔗 Copiar link do certificado</button>
         </div>
 
-        ${compartilha ? "" : `<div class="post trilha-progresso" id="trilha-progresso"><span class="girando">⏳</span> Conferindo os outros cursos da trilha...</div>`}
+        ${cursoId === "trilha" ? "" : `<div class="post trilha-progresso" id="trilha-progresso"><span class="girando">⏳</span> Conferindo os outros cursos da trilha...</div>`}
 
         <div class="post" ${compartilha ? "" : "hidden"}>
           <h3>✍️ Texto sugerido para a sua postagem</h3>
@@ -339,7 +339,7 @@ Certificado verificado: ${link}
       $("#btn-baixar").onclick = baixarImagem;
       confete(220);
       mostrarMemoji("festa");
-      if (!compartilha) mostrarProgressoTrilha(login, cursoId);
+      if (cursoId !== "trilha") mostrarProgressoTrilha(login, cursoId);
     } catch (e) {
       $("#status").className = "status erro";
       $("#status").textContent = "⚠️ " + e.message;
