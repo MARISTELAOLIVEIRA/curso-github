@@ -97,7 +97,7 @@ O ciclo de todo dia, que você treina no simulador do módulo 4:
 
 | Ferramenta | Para quê |
 |---|---|
-| 🐙 **GitHub** | Guardar os projetos, mostrar o portfólio e entregar os trabalhos. |
+| <img src="https://maristelaoliveira.github.io/assets/img/octocat-stela.webp" width="22" height="22" alt="Octocat da Stela" align="absmiddle"> **GitHub** | Guardar os projetos, mostrar o portfólio e entregar os trabalhos. |
 | 📸 **Git** | Tirar as "fotos" (commits) do projeto no seu computador. |
 | 💻 **VS Code** | Programar e enviar as mudanças com um clique (**Sync Changes**). |
 | 📝 **Markdown** | Escrever o README, a capa do projeto. |
