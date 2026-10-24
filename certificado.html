@@ -171,7 +171,6 @@
     linkedinProfessora: "https://www.linkedin.com/in/maristelanunesoliveira",
     faculdade: "Faculdade de Tecnologia e Inovação Senac DF",
     linkedinFaculdade: "https://www.linkedin.com/school/faculdadesenacdf/",
-    linkedinFaculdadeId: "",      // número da página da faculdade no LinkedIn (liga o certificado à página dela)
     serie: "GitHub na Prática",
     linkedinSoNaTrilha: false,    // false: todo certificado tem os botões do LinkedIn; true: só o da trilha completa
     // o evento em que os cursos foram feitos (aparece no certificado; deixe "" para esconder)
@@ -292,8 +291,7 @@
         </div></div>
 
         <div class="acoes">
-          ${compartilha ? `<a class="btn btn-linkedin" id="btn-perfil" target="_blank" rel="noopener">➕ Adicionar ao perfil do LinkedIn</a>
-          <a class="btn btn-linkedin" id="btn-post" target="_blank" rel="noopener">📣 Compartilhar no LinkedIn</a>` : ""}
+          ${compartilha ? `<a class="btn btn-linkedin" id="btn-post" target="_blank" rel="noopener">📣 Compartilhar no LinkedIn</a>` : ""}
           <button class="btn btn-verde" id="btn-baixar">⬇ Baixar imagem</button>
           <button class="btn btn-ghost" id="btn-link">🔗 Copiar link do certificado</button>
         </div>
@@ -307,16 +305,8 @@
           <button class="btn btn-ghost" id="btn-copiar-texto">📋 Copiar texto</button>
         </div>`);
 
-      // LinkedIn: "adicionar certificado ao perfil" (formulário de Licenças e certificados já preenchido)
-      if (compartilha) {
-      const perfilURL = new URL("https://www.linkedin.com/profile/add");
-      perfilURL.search = new URLSearchParams({
-        startTask: "CERTIFICATION_NAME", name: titulo,
-        ...(CONFIG.linkedinFaculdadeId ? { organizationId: CONFIG.linkedinFaculdadeId } : { organizationName: CONFIG.faculdade }),
-        issueYear: data.getFullYear(), issueMonth: data.getMonth() + 1, certUrl: link, certId: cod,
-      });
-      $("#btn-perfil").href = perfilURL;
 
+      if (compartilha) {
       $("#texto-post").textContent =
 `🎉 Concluí ${cursoId === "trilha" ? "a trilha completa" : "o curso prático"} "${curso.nome}"${CONFIG.evento ? `, no ${CONFIG.evento}` : `, da série ${CONFIG.serie}`}, com a @${CONFIG.mencaoProfessora}, na @${CONFIG.mencaoFaculdade}!
 
