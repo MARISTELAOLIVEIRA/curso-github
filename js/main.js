@@ -12,10 +12,10 @@
      6. Módulo 1: viagem no tempo
      7. Módulo 2: verificador de nome de usuário
      8. Módulo 3: nome do repositório + simulação de upload
-     9. Módulo 4: simulador de terminal Git
-    10. Módulo 5: gerador de README + pré-visualização
-    11. Módulo 6: montador do link do GitHub Pages
-    12. Módulo 7: regras, checklist e mensagem de entrega
+     9. Módulo 7 (id m4): simulador de terminal Git (o último, porque a prática pede instalar o VS Code)
+    10. Módulo 4 (id m5): gerador de README + pré-visualização
+    11. Módulo 5 (id m6): montador do link do GitHub Pages
+    12. Módulo 6 (id m7): regras, checklist e mensagem de entrega
     13. Quizzes
 
    COMO ADICIONAR UM MÓDULO: copie uma <section class="modulo" id="m8" ...> no index.html
@@ -28,7 +28,7 @@
    A. DADOS (PARA EDITAR)
    ========================================================== */
 
-// PARA EDITAR: regras de entrega dos projetos (módulo 7)
+// PARA EDITAR: regras de entrega dos projetos (módulo 6)
 const REGRAS_ENTREGA = [
   { icone: "📛", titulo: "Nome do repositório", texto: "disciplina-nome-do-projeto, em minúsculas e com hífens. Ex.: prog-web-calculadora-medias" },
   { icone: "🌍", titulo: "Repositório público", texto: "Se precisar que seja privado, adicione MARISTELAOLIVEIRA como colaboradora (Settings → Collaborators)." },
@@ -38,7 +38,7 @@ const REGRAS_ENTREGA = [
   { icone: "🔗", titulo: "Envio", texto: "Mande o link do repositório pelo canal combinado na disciplina, dentro do prazo." },
 ];
 
-// PARA EDITAR: itens do checklist de entrega (módulo 7)
+// PARA EDITAR: itens do checklist de entrega (módulo 6)
 const CHECKLIST = [
   "O nome do repositório segue o padrão disciplina-nome-do-projeto",
   "O repositório está público (ou a professora é colaboradora)",

@@ -74,14 +74,14 @@ Sete módulos, do primeiro commit ao portfólio no ar:
 | 1 | Por que GitHub? | 10 min | [abrir](https://maristelaoliveira.github.io/curso-github/#m1) |
 | 2 | Criando sua conta (verificação em duas etapas, e-mail da faculdade e benefícios de estudante) | 25 min | [abrir](https://maristelaoliveira.github.io/curso-github/#m2) |
 | 3 | Primeiro repositório (pelo site) | 15 min | [abrir](https://maristelaoliveira.github.io/curso-github/#m3) |
-| 4 | Git + VS Code: o dia a dia | 30 min | [abrir](https://maristelaoliveira.github.io/curso-github/#m4) |
-| 5 | README caprichado | 20 min | [abrir](https://maristelaoliveira.github.io/curso-github/#m5) |
-| 6 | GitHub Pages | 15 min | [abrir](https://maristelaoliveira.github.io/curso-github/#m6) |
-| 7 | Entregando projetos | 10 min | [abrir](https://maristelaoliveira.github.io/curso-github/#m7) |
+| 4 | README caprichado | 20 min | [abrir](https://maristelaoliveira.github.io/curso-github/#m5) |
+| 5 | GitHub Pages | 15 min | [abrir](https://maristelaoliveira.github.io/curso-github/#m6) |
+| 6 | Entregando projetos | 10 min | [abrir](https://maristelaoliveira.github.io/curso-github/#m7) |
+| 7 | Git + VS Code: o dia a dia | 30 min | [abrir](https://maristelaoliveira.github.io/curso-github/#m4) |
 
-> 🏋️ **Prática com correção automática:** os módulos 3, 4 e 7 têm uma prática no seu próprio GitHub. Eu confiro cada passo, dou o feedback e libero o próximo. O link da prática chega pela sua turma. Concluiu? O certificado aparece na página **Meus certificados**.
+> 🏋️ **Prática com correção automática:** os módulos 3, 6 e 7 têm uma prática no seu próprio GitHub. Eu confiro cada passo, dou o feedback e libero o próximo. O link da prática chega pela sua turma. Concluiu? O certificado aparece na página **Meus certificados**.
 
-O ciclo de todo dia, que você treina no simulador do módulo 4:
+O ciclo de todo dia, que você treina no simulador do módulo 7 (o último, porque a prática pede o VS Code instalado):
 
 ```text
 ✏️ edite  →  ➕ git add  →  📸 git commit  →  ☁️ git push

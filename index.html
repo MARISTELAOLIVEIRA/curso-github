@@ -314,10 +314,156 @@
       <button class="btn-concluir" data-modulo="m3">✔ Concluir módulo</button>
     </section>
 
-    <!-- ===================== 4. GIT + VS CODE ===================== -->
+
+    <!-- ===================== 5. README ===================== -->
+    <section class="modulo" id="m5" data-titulo="README caprichado" data-icone="📝">
+      <header class="modulo-topo reveal">
+        <span class="modulo-num">Módulo 4</span><span class="modulo-tempo">⏱️ 20 min</span>
+        <h2>Um <span class="hl">README</span> que impressiona</h2>
+      </header>
+      <p class="reveal">O README é a <b>primeira coisa</b> que aparece no seu repositório. É a capa do projeto, e o que um recrutador (ou a professora 😉) vai ler primeiro.</p>
+
+      <div class="duas-colunas">
+        <div class="cartao reveal">
+          <h3>O que todo README precisa ter</h3>
+          <ul class="checklist-simples">
+            <li>📛 Nome do projeto</li>
+            <li>📄 O que ele faz, em 2 ou 3 frases</li>
+            <li>🛠️ Tecnologias usadas</li>
+            <li>▶️ Como rodar o projeto</li>
+            <li>🖼️ Um print ou link do site</li>
+            <li>👤 Seu nome, curso e disciplina</li>
+          </ul>
+        </div>
+        <div class="cartao reveal" style="--d:.15s">
+          <h3>Markdown em 1 minuto</h3>
+          <table class="tabela-md">
+            <tr><td><code># Título</code></td><td>título grande</td></tr>
+            <tr><td><code>## Seção</code></td><td>subtítulo</td></tr>
+            <tr><td><code>**negrito**</code></td><td><b>negrito</b></td></tr>
+            <tr><td><code>- item</code></td><td>lista</td></tr>
+            <tr><td><code>[texto](link)</code></td><td>link</td></tr>
+            <tr><td><code>![descrição](imagem.png)</code></td><td>imagem</td></tr>
+            <tr><td><code>`código`</code></td><td><code>código</code></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <h3 class="reveal">Gerador de README ✨</h3>
+      <p class="reveal">Preencha, clique em <b>Gerar</b> e ajuste no editor. A pré-visualização mostra como vai ficar no GitHub.</p>
+      <form class="gerador reveal" id="gerador">
+        <label>Nome do projeto<input name="projeto" placeholder="ex.: Calculadora de Médias"></label>
+        <label>Seu nome<input name="autor" placeholder="ex.: Maria Silva"></label>
+        <label class="largo">O que o projeto faz<input name="descricao" placeholder="ex.: Calcula a média final e mostra se o aluno foi aprovado."></label>
+        <label>Tecnologias <small>(separe por vírgula)</small><input name="tecnologias" placeholder="ex.: HTML, CSS, JavaScript"></label>
+        <label>Como rodar<input name="rodar" placeholder="ex.: Abra o index.html no navegador"></label>
+        <label>Curso<input name="curso" placeholder="ex.: o nome do seu curso"></label>
+        <label>Disciplina<input name="disciplina" placeholder="ex.: Programação Web"></label>
+        <button class="btn btn-primario" type="submit">✨ Gerar README</button>
+      </form>
+      <div class="editor-md reveal">
+        <div class="editor-lado">
+          <div class="editor-titulo">README.md <small>(edite à vontade)</small></div>
+          <textarea id="md-entrada" spellcheck="false" aria-label="Texto do README em Markdown"></textarea>
+        </div>
+        <div class="editor-lado">
+          <div class="editor-titulo">👀 Como fica no GitHub</div>
+          <div class="md-preview" id="md-preview"></div>
+        </div>
+      </div>
+      <div class="editor-acoes reveal">
+        <button class="btn btn-ghost" id="md-copiar">📋 Copiar</button>
+        <button class="btn btn-ghost" id="md-baixar">⬇ Baixar README.md</button>
+      </div>
+
+      <div class="quiz" data-quiz="m5"></div>
+      <button class="btn-concluir" data-modulo="m5">✔ Concluir módulo</button>
+    </section>
+
+    <!-- ===================== 6. GITHUB PAGES ===================== -->
+    <section class="modulo" id="m6" data-titulo="GitHub Pages" data-icone="🌐">
+      <header class="modulo-topo reveal">
+        <span class="modulo-num">Módulo 5</span><span class="modulo-tempo">⏱️ 15 min</span>
+        <h2>Seu site no ar com o <span class="hl">GitHub Pages</span></h2>
+      </header>
+      <p class="reveal">Fez um site em HTML, CSS e JavaScript? O GitHub publica <b>de graça</b>, com um link para mostrar para todo mundo. Este curso que você está vendo está no GitHub Pages! 😄</p>
+
+      <div class="dica alerta reveal">
+        <span>⚠️</span>
+        <p>O Pages publica só <b>sites estáticos</b> (HTML, CSS, JavaScript, imagens). Projetos que precisam de servidor, como Python, PHP ou banco de dados, não rodam nele. Para esses, o repositório com um bom README já é a entrega.</p>
+      </div>
+
+      <ol class="passos reveal">
+        <li>Confira se o arquivo principal se chama <code>index.html</code> e está <b>na raiz</b> do repositório (fora de qualquer pasta)</li>
+        <li>No repositório: <b>Settings</b> → <b>Pages</b> (no menu da esquerda)</li>
+        <li>Em <b>Source</b>, escolha <b>Deploy from a branch</b></li>
+        <li>Em <b>Branch</b>, escolha <b>main</b> e a pasta <b>/ (root)</b> → <b>Save</b></li>
+        <li>Espere 1 ou 2 minutos e atualize a página: o link aparece no topo 🎉</li>
+      </ol>
+
+      <div class="cartao ferramenta reveal">
+        <h3>🔗 Qual vai ser o link do seu site?</h3>
+        <div class="url-campos">
+          <label>Seu usuário<input id="url-user" placeholder="maria-silva" autocomplete="off" spellcheck="false"></label>
+          <label>Nome do repositório<input id="url-repo" placeholder="calculadora-medias" autocomplete="off" spellcheck="false"></label>
+        </div>
+        <p class="url-resultado">https://<b id="url-a">seu-usuario</b>.github.io/<b id="url-b">nome-do-repositorio</b>/</p>
+      </div>
+
+      <h3 class="reveal">Bônus: seu perfil vira portfólio 🌟</h3>
+      <div class="cartao reveal">
+        <p>Crie um repositório com o <b>mesmo nome do seu usuário</b> (ex.: <code>maria-silva/maria-silva</code>) e marque <b>Add README</b>.
+        Tudo o que você escrever nesse README aparece <b>no topo do seu perfil</b>: apresentação, tecnologias que você usa e links para os seus melhores projetos.</p>
+      </div>
+
+      <div class="quiz" data-quiz="m6"></div>
+      <button class="btn-concluir" data-modulo="m6">✔ Concluir módulo</button>
+    </section>
+
+    <!-- ===================== 7. ENTREGAS ===================== -->
+    <section class="modulo" id="m7" data-titulo="Entregando projetos" data-icone="🎓">
+      <header class="modulo-topo reveal">
+        <span class="modulo-num">Módulo 6</span><span class="modulo-tempo">⏱️ 10 min</span>
+        <h2>Entregando os projetos das <span class="hl">disciplinas</span></h2>
+      </header>
+      <p class="reveal">Todos os projetos das minhas disciplinas são entregues pelo GitHub. Siga estas regras e use o checklist antes de enviar:</p>
+
+      <!-- as regras são montadas pelo js/main.js (procure "REGRAS_ENTREGA") -->
+      <div class="regras" id="regras"></div>
+
+      <div class="duas-colunas">
+        <div class="cartao reveal">
+          <h3>✅ Checklist antes de entregar</h3>
+          <ul class="checklist" id="checklist"></ul>
+        </div>
+        <div class="cartao ferramenta reveal" style="--d:.15s">
+          <h3>✉️ Mensagem de entrega</h3>
+          <label>Seu nome<input id="ent-nome" placeholder="Maria Silva" autocomplete="off"></label>
+          <label>Disciplina<input id="ent-disc" placeholder="Programação Web" autocomplete="off"></label>
+          <label>Link do repositório<input id="ent-link" placeholder="https://github.com/maria-silva/prog-web-projeto-final" autocomplete="off" spellcheck="false"></label>
+          <pre class="ent-msg" id="ent-msg"></pre>
+          <button class="btn btn-ghost" id="ent-copiar">📋 Copiar mensagem</button>
+        </div>
+      </div>
+
+      <div class="pratica reveal">
+        <img src="assets/memoji.png" alt="">
+        <div>
+          <b>👥 Projeto em grupo? Pratique o trabalho em equipe</b>
+          <p>No curso prático <i>Trabalho em equipe</i>, você cria uma branch, abre um pull request, atende a uma revisão e resolve um conflito, comigo fazendo o papel de colega. Uns 30 minutos.</p>
+        </div>
+        <a class="btn btn-primario" href="https://github.com/MARISTELAOLIVEIRA/trabalho-em-equipe" target="_blank" rel="noopener">Começar a prática →</a>
+      </div>
+
+      <div class="quiz" data-quiz="m7"></div>
+      <button class="btn-concluir" data-modulo="m7">✔ Concluir módulo</button>
+
+    </section>
+
+    <!-- ===================== 7. GIT + VS CODE (por último: precisa instalar) ===================== -->
     <section class="modulo" id="m4" data-titulo="Git + VS Code" data-icone="💻">
       <header class="modulo-topo reveal">
-        <span class="modulo-num">Módulo 4</span><span class="modulo-tempo">⏱️ 30 min</span>
+        <span class="modulo-num">Módulo 7</span><span class="modulo-tempo">⏱️ 30 min</span>
         <h2>Git no <span class="hl">VS Code</span>: o dia a dia</h2>
       </header>
       <p class="reveal">O upload pelo site é ótimo para começar. Mas, no dia a dia, você programa no VS Code e envia as mudanças direto de lá, com um clique.</p>
@@ -403,158 +549,14 @@ venv/</code></pre>
       <div class="pratica reveal">
         <img src="assets/memoji.png" alt="">
         <div>
-          <b>🏋️ Pratique no seu computador, com correção automática</b>
-          <p>No curso prático <i>Git no VS Code</i>, você clona, faz commits, protege o <code>.env</code> e puxa as mudanças de um "colega". A cada passo, eu confiro e libero o próximo. Uns 30 minutos.</p>
+          <b>🏠 Para fazer em casa: pratique no seu computador, com correção automática</b>
+          <p>No curso prático <i>Git no VS Code</i>, você clona, faz commits, protege o <code>.env</code> e puxa as mudanças de um "colega". Precisa do <b>Git e do VS Code instalados</b>, por isso fica para fazer em casa. A cada passo, eu confiro e libero o próximo. Uns 30 minutos.</p>
         </div>
         <a class="btn btn-primario" href="https://github.com/MARISTELAOLIVEIRA/git-vscode" target="_blank" rel="noopener">Começar a prática →</a>
       </div>
 
       <div class="quiz" data-quiz="m4"></div>
       <button class="btn-concluir" data-modulo="m4">✔ Concluir módulo</button>
-    </section>
-
-    <!-- ===================== 5. README ===================== -->
-    <section class="modulo" id="m5" data-titulo="README caprichado" data-icone="📝">
-      <header class="modulo-topo reveal">
-        <span class="modulo-num">Módulo 5</span><span class="modulo-tempo">⏱️ 20 min</span>
-        <h2>Um <span class="hl">README</span> que impressiona</h2>
-      </header>
-      <p class="reveal">O README é a <b>primeira coisa</b> que aparece no seu repositório. É a capa do projeto, e o que um recrutador (ou a professora 😉) vai ler primeiro.</p>
-
-      <div class="duas-colunas">
-        <div class="cartao reveal">
-          <h3>O que todo README precisa ter</h3>
-          <ul class="checklist-simples">
-            <li>📛 Nome do projeto</li>
-            <li>📄 O que ele faz, em 2 ou 3 frases</li>
-            <li>🛠️ Tecnologias usadas</li>
-            <li>▶️ Como rodar o projeto</li>
-            <li>🖼️ Um print ou link do site</li>
-            <li>👤 Seu nome, curso e disciplina</li>
-          </ul>
-        </div>
-        <div class="cartao reveal" style="--d:.15s">
-          <h3>Markdown em 1 minuto</h3>
-          <table class="tabela-md">
-            <tr><td><code># Título</code></td><td>título grande</td></tr>
-            <tr><td><code>## Seção</code></td><td>subtítulo</td></tr>
-            <tr><td><code>**negrito**</code></td><td><b>negrito</b></td></tr>
-            <tr><td><code>- item</code></td><td>lista</td></tr>
-            <tr><td><code>[texto](link)</code></td><td>link</td></tr>
-            <tr><td><code>![descrição](imagem.png)</code></td><td>imagem</td></tr>
-            <tr><td><code>`código`</code></td><td><code>código</code></td></tr>
-          </table>
-        </div>
-      </div>
-
-      <h3 class="reveal">Gerador de README ✨</h3>
-      <p class="reveal">Preencha, clique em <b>Gerar</b> e ajuste no editor. A pré-visualização mostra como vai ficar no GitHub.</p>
-      <form class="gerador reveal" id="gerador">
-        <label>Nome do projeto<input name="projeto" placeholder="ex.: Calculadora de Médias"></label>
-        <label>Seu nome<input name="autor" placeholder="ex.: Maria Silva"></label>
-        <label class="largo">O que o projeto faz<input name="descricao" placeholder="ex.: Calcula a média final e mostra se o aluno foi aprovado."></label>
-        <label>Tecnologias <small>(separe por vírgula)</small><input name="tecnologias" placeholder="ex.: HTML, CSS, JavaScript"></label>
-        <label>Como rodar<input name="rodar" placeholder="ex.: Abra o index.html no navegador"></label>
-        <label>Curso<input name="curso" placeholder="ex.: o nome do seu curso"></label>
-        <label>Disciplina<input name="disciplina" placeholder="ex.: Programação Web"></label>
-        <button class="btn btn-primario" type="submit">✨ Gerar README</button>
-      </form>
-      <div class="editor-md reveal">
-        <div class="editor-lado">
-          <div class="editor-titulo">README.md <small>(edite à vontade)</small></div>
-          <textarea id="md-entrada" spellcheck="false" aria-label="Texto do README em Markdown"></textarea>
-        </div>
-        <div class="editor-lado">
-          <div class="editor-titulo">👀 Como fica no GitHub</div>
-          <div class="md-preview" id="md-preview"></div>
-        </div>
-      </div>
-      <div class="editor-acoes reveal">
-        <button class="btn btn-ghost" id="md-copiar">📋 Copiar</button>
-        <button class="btn btn-ghost" id="md-baixar">⬇ Baixar README.md</button>
-      </div>
-
-      <div class="quiz" data-quiz="m5"></div>
-      <button class="btn-concluir" data-modulo="m5">✔ Concluir módulo</button>
-    </section>
-
-    <!-- ===================== 6. GITHUB PAGES ===================== -->
-    <section class="modulo" id="m6" data-titulo="GitHub Pages" data-icone="🌐">
-      <header class="modulo-topo reveal">
-        <span class="modulo-num">Módulo 6</span><span class="modulo-tempo">⏱️ 15 min</span>
-        <h2>Seu site no ar com o <span class="hl">GitHub Pages</span></h2>
-      </header>
-      <p class="reveal">Fez um site em HTML, CSS e JavaScript? O GitHub publica <b>de graça</b>, com um link para mostrar para todo mundo. Este curso que você está vendo está no GitHub Pages! 😄</p>
-
-      <div class="dica alerta reveal">
-        <span>⚠️</span>
-        <p>O Pages publica só <b>sites estáticos</b> (HTML, CSS, JavaScript, imagens). Projetos que precisam de servidor, como Python, PHP ou banco de dados, não rodam nele. Para esses, o repositório com um bom README já é a entrega.</p>
-      </div>
-
-      <ol class="passos reveal">
-        <li>Confira se o arquivo principal se chama <code>index.html</code> e está <b>na raiz</b> do repositório (fora de qualquer pasta)</li>
-        <li>No repositório: <b>Settings</b> → <b>Pages</b> (no menu da esquerda)</li>
-        <li>Em <b>Source</b>, escolha <b>Deploy from a branch</b></li>
-        <li>Em <b>Branch</b>, escolha <b>main</b> e a pasta <b>/ (root)</b> → <b>Save</b></li>
-        <li>Espere 1 ou 2 minutos e atualize a página: o link aparece no topo 🎉</li>
-      </ol>
-
-      <div class="cartao ferramenta reveal">
-        <h3>🔗 Qual vai ser o link do seu site?</h3>
-        <div class="url-campos">
-          <label>Seu usuário<input id="url-user" placeholder="maria-silva" autocomplete="off" spellcheck="false"></label>
-          <label>Nome do repositório<input id="url-repo" placeholder="calculadora-medias" autocomplete="off" spellcheck="false"></label>
-        </div>
-        <p class="url-resultado">https://<b id="url-a">seu-usuario</b>.github.io/<b id="url-b">nome-do-repositorio</b>/</p>
-      </div>
-
-      <h3 class="reveal">Bônus: seu perfil vira portfólio 🌟</h3>
-      <div class="cartao reveal">
-        <p>Crie um repositório com o <b>mesmo nome do seu usuário</b> (ex.: <code>maria-silva/maria-silva</code>) e marque <b>Add README</b>.
-        Tudo o que você escrever nesse README aparece <b>no topo do seu perfil</b>: apresentação, tecnologias que você usa e links para os seus melhores projetos.</p>
-      </div>
-
-      <div class="quiz" data-quiz="m6"></div>
-      <button class="btn-concluir" data-modulo="m6">✔ Concluir módulo</button>
-    </section>
-
-    <!-- ===================== 7. ENTREGAS ===================== -->
-    <section class="modulo" id="m7" data-titulo="Entregando projetos" data-icone="🎓">
-      <header class="modulo-topo reveal">
-        <span class="modulo-num">Módulo 7</span><span class="modulo-tempo">⏱️ 10 min</span>
-        <h2>Entregando os projetos das <span class="hl">disciplinas</span></h2>
-      </header>
-      <p class="reveal">Todos os projetos das minhas disciplinas são entregues pelo GitHub. Siga estas regras e use o checklist antes de enviar:</p>
-
-      <!-- as regras são montadas pelo js/main.js (procure "REGRAS_ENTREGA") -->
-      <div class="regras" id="regras"></div>
-
-      <div class="duas-colunas">
-        <div class="cartao reveal">
-          <h3>✅ Checklist antes de entregar</h3>
-          <ul class="checklist" id="checklist"></ul>
-        </div>
-        <div class="cartao ferramenta reveal" style="--d:.15s">
-          <h3>✉️ Mensagem de entrega</h3>
-          <label>Seu nome<input id="ent-nome" placeholder="Maria Silva" autocomplete="off"></label>
-          <label>Disciplina<input id="ent-disc" placeholder="Programação Web" autocomplete="off"></label>
-          <label>Link do repositório<input id="ent-link" placeholder="https://github.com/maria-silva/prog-web-projeto-final" autocomplete="off" spellcheck="false"></label>
-          <pre class="ent-msg" id="ent-msg"></pre>
-          <button class="btn btn-ghost" id="ent-copiar">📋 Copiar mensagem</button>
-        </div>
-      </div>
-
-      <div class="pratica reveal">
-        <img src="assets/memoji.png" alt="">
-        <div>
-          <b>👥 Projeto em grupo? Pratique o trabalho em equipe</b>
-          <p>No curso prático <i>Trabalho em equipe</i>, você cria uma branch, abre um pull request, atende a uma revisão e resolve um conflito, comigo fazendo o papel de colega. Uns 30 minutos.</p>
-        </div>
-        <a class="btn btn-primario" href="https://github.com/MARISTELAOLIVEIRA/trabalho-em-equipe" target="_blank" rel="noopener">Começar a prática →</a>
-      </div>
-
-      <div class="quiz" data-quiz="m7"></div>
-      <button class="btn-concluir" data-modulo="m7">✔ Concluir módulo</button>
 
       <div class="final" id="final">
         <div class="final-estrela"><img src="assets/estrela.png" alt=""></div>
