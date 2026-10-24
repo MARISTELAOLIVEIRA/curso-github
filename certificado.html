@@ -298,12 +298,7 @@
 
         ${cursoId === "trilha" ? "" : `<div class="post trilha-progresso" id="trilha-progresso"><span class="girando">⏳</span> Conferindo os outros cursos da trilha...</div>`}
 
-        <div class="post" ${compartilha ? "" : "hidden"}>
-          <h3>✍️ Texto sugerido para a sua postagem</h3>
-          <p class="dica">O botão <b>📣 Compartilhar no LinkedIn</b> já abre a postagem com este texto. Se não aparecer, copie e cole. Para a marcação funcionar, apague e digite de novo os nomes depois do <b>@</b> (<b>@${escapar(CONFIG.mencaoProfessora)}</b> e <b>@${escapar(CONFIG.mencaoFaculdade)}</b>): o LinkedIn mostra a lista e você escolhe.</p>
-          <pre id="texto-post"></pre>
-          <button class="btn btn-ghost" id="btn-copiar-texto">📋 Copiar texto</button>
-        </div>`);
+        <pre id="texto-post" hidden></pre>`);
 
 
       if (compartilha) {
@@ -324,7 +319,6 @@ Certificado verificado: ${link}
       $("#btn-post").href = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent($("#texto-post").textContent)}`;
       }
 
-      $("#btn-copiar-texto").onclick = () => copiar($("#texto-post").textContent, "Texto copiado! Agora é só colar no LinkedIn.");
       $("#btn-link").onclick = () => copiar(link, "Link do certificado copiado!");
       $("#btn-baixar").onclick = baixarImagem;
       confete(220);
