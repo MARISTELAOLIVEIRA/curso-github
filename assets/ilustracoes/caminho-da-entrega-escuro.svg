@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 230" width="760" height="230" role="img" aria-labelledby="t d">
+  <title id="t">O caminho da sua entrega</title>
+  <desc id="d">Linha do tempo com quatro commits: README, página, site publicado e link no README.</desc>
+  <defs>
+    <linearGradient id="fundo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f1f17"/><stop offset="1" stop-color="#0d1624"/>
+    </linearGradient>
+    <linearGradient id="linha" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3fb950"/><stop offset="1" stop-color="#c9a227"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="756" height="226" rx="22" fill="url(#fundo)" stroke="#c9a227" stroke-opacity=".5" stroke-width="2"/>
+  <text x="380" y="46" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',sans-serif" font-size="21" font-weight="700" fill="#ffffff">Cada commit é um ponto na história da sua entrega</text>
+  <line x1="110" y1="112" x2="650" y2="112" stroke="url(#linha)" stroke-width="6" stroke-linecap="round"/>
+  <g font-family="system-ui,-apple-system,'Segoe UI',sans-serif" text-anchor="middle">
+    <g>
+      <circle cx="110" cy="112" r="20" fill="#1a7f37"/><text x="110" y="119" font-size="19" font-weight="700" fill="#fff">1</text>
+      <text x="110" y="82" font-size="16" font-weight="700" fill="#e6edf3">README</text>
+      <rect x="40" y="150" width="140" height="30" rx="15" fill="#161b22" stroke="#1a7f37" stroke-opacity=".5"/>
+      <text x="110" y="170" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#e6edf3">Adiciona meu nome</text>
+    </g>
+    <g>
+      <circle cx="290" cy="112" r="20" fill="#1a7f37"/><text x="290" y="119" font-size="19" font-weight="700" fill="#fff">2</text>
+      <text x="290" y="82" font-size="16" font-weight="700" fill="#e6edf3">Sua página</text>
+      <rect x="220" y="150" width="140" height="30" rx="15" fill="#161b22" stroke="#1a7f37" stroke-opacity=".5"/>
+      <text x="290" y="170" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#e6edf3">Cria minha página</text>
+    </g>
+    <g>
+      <circle cx="470" cy="112" r="20" fill="#b8860b"/><text x="470" y="119" font-size="19" font-weight="700" fill="#fff">3</text>
+      <text x="470" y="82" font-size="16" font-weight="700" fill="#e6edf3">Site no ar</text>
+      <rect x="400" y="150" width="140" height="30" rx="15" fill="#161b22" stroke="#b8860b" stroke-opacity=".6"/>
+      <text x="470" y="170" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#e6edf3">GitHub Pages</text>
+    </g>
+    <g>
+      <circle cx="650" cy="112" r="24" fill="#c9a227"/>
+      <path d="M650 96l4.7 9.6 10.6 1.5-7.7 7.5 1.8 10.5-9.4-5-9.4 5 1.8-10.5-7.7-7.5 10.6-1.5z" fill="#fff"/>
+      <text x="650" y="76" font-size="16" font-weight="700" fill="#e6edf3">Entregue!</text>
+      <rect x="580" y="150" width="140" height="30" rx="15" fill="#161b22" stroke="#b8860b" stroke-opacity=".6"/>
+      <text x="650" y="170" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#e6edf3">Adiciona o link</text>
+    </g>
+    <text x="380" y="208" font-size="13" fill="#9ba7b4">Cada bolinha é um commit: uma “foto” do seu trabalho, com uma mensagem que conta o que mudou.</text>
+  </g>
+</svg>

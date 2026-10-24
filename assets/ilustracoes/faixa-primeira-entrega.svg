@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 200" width="760" height="200" role="img" aria-labelledby="t">
+  <title id="t">Minha primeira entrega no GitHub</title>
+  <defs>
+    <linearGradient id="fundo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1410"/><stop offset="1" stop-color="#0d1117"/></linearGradient>
+    <linearGradient id="ouro" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c9a227"/><stop offset="1" stop-color="#f1d77a"/></linearGradient>
+    <radialGradient id="brilho" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#7ee2b8" stop-opacity=".55"/><stop offset="1" stop-color="#7ee2b8" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="760" height="200" rx="22" fill="url(#fundo)"/>
+  <rect x="1.5" y="1.5" width="757" height="197" rx="21" fill="none" stroke="#c9a227" stroke-opacity=".45" stroke-width="3"/>
+  <!-- trilhas da placa -->
+  <g fill="none" stroke="#c9a227" stroke-opacity=".55" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M144 100 H155 L185 70 H200"/>
+    <path d="M144 100 H155 L185 130 H200"/>
+    <path d="M616 100 H605 L575 70 H560"/>
+    <path d="M616 100 H605 L575 130 H560"/>
+    <path d="M40 30 H90 L110 50 H150"/>
+    <path d="M720 170 H670 L650 150 H610"/>
+    <path d="M40 170 H80 L100 150 H150"/>
+    <path d="M720 30 H690 L670 50 H610"/>
+  </g>
+  <g fill="#c9a227" fill-opacity=".8"><circle cx="200" cy="70" r="4"/><circle cx="200" cy="130" r="4"/><circle cx="560" cy="70" r="4"/><circle cx="560" cy="130" r="4"/><circle cx="40" cy="30" r="4"/><circle cx="720" cy="170" r="4"/><circle cx="40" cy="170" r="4"/><circle cx="720" cy="30" r="4"/></g>
+  <!-- chips das pontas -->
+  <g>
+    <circle cx="110" cy="100" r="52" fill="url(#brilho)"/>
+    <rect x="76" y="66" width="68" height="68" rx="12" fill="#101a15" stroke="url(#ouro)" stroke-width="3"/>
+    <path d="M110 80l6.4 13 14.3 2.1-10.4 10.1 2.4 14.3-12.7-6.7-12.7 6.7 2.4-14.3-10.4-10.1 14.3-2.1z" fill="url(#ouro)"/>
+    <circle cx="650" cy="100" r="52" fill="url(#brilho)"/>
+    <rect x="616" y="66" width="68" height="68" rx="12" fill="#101a15" stroke="#7ee2b8" stroke-width="3"/>
+    <path d="M650 120v-24M650 96l-10 10M650 96l10 10" stroke="#7ee2b8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  <g font-family="system-ui,-apple-system,'Segoe UI',sans-serif" text-anchor="middle">
+    <text x="380" y="92" font-size="14" font-weight="700" letter-spacing="3" fill="#7ee2b8">CURSO PRÁTICO · GITHUB NA PRÁTICA</text>
+    <text x="380" y="124" font-size="31" font-weight="800" fill="#ffffff">Minha primeira entrega</text>
+    <text x="380" y="152" font-size="14" fill="#f1d77a">README · commit · site no ar · link</text>
+  </g>
+</svg>
