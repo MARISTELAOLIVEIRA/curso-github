@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" width="760" height="250" role="img" aria-labelledby="t d">
+  <title id="t">O caminho de um trabalho em equipe</title>
+  <desc id="d">A main com uma mudança da Stela, a sua branch minha-parte, um conflito entre as duas, o pull request e o merge de volta na main.</desc>
+  <defs>
+    <linearGradient id="fundo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9fbef"/><stop offset="1" stop-color="#e8f0ff"/></linearGradient>
+  </defs>
+  <rect x="2" y="2" width="756" height="246" rx="22" fill="url(#fundo)" stroke="#1a7f37" stroke-opacity=".35" stroke-width="2"/>
+  <g font-family="system-ui,-apple-system,'Segoe UI',sans-serif" text-anchor="middle">
+    <text x="380" y="44" font-size="21" font-weight="700" fill="#1f2328">Cada pessoa na sua branch, e tudo se junta na main</text>
+    <g fill="none" stroke-width="6" stroke-linecap="round">
+      <path d="M70 100 H690" stroke="#1a7f37"/>
+      <path d="M110 100 C135 100 130 178 165 178 H515 C550 178 555 100 590 100" stroke="#c9a227"/>
+    </g>
+    <text x="70" y="76" font-size="13" font-weight="700" fill="#1f2328">main</text>
+    <!-- conflito -->
+    <path d="M260 112 V166" stroke="#e8590c" stroke-width="3" stroke-dasharray="5 5" stroke-linecap="round"/>
+    <path d="M265 128 l-9 14 h8 l-4 13 12 -17 h-8 z" fill="#e8590c"/>
+    <text x="284" y="148" font-size="13" font-weight="700" fill="#e8590c" text-anchor="start">conflito</text>
+    <!-- commits -->
+    <circle cx="70" cy="100" r="11" fill="#1a7f37"/>
+    <circle cx="170" cy="100" r="11" fill="#1a7f37"/>
+    <circle cx="260" cy="100" r="12" fill="#e8590c"/>
+    <text x="260" y="76" font-size="13" font-weight="700" fill="#1f2328">mudança da Stela</text>
+    <circle cx="210" cy="178" r="11" fill="#c9a227"/>
+    <circle cx="330" cy="178" r="11" fill="#c9a227"/>
+    <circle cx="430" cy="178" r="11" fill="#c9a227"/>
+    <rect x="272" y="204" width="116" height="28" rx="14" fill="#fff" stroke="#c9a227" stroke-opacity=".7"/>
+    <text x="330" y="223" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#1f2328">minha-parte</text>
+    <!-- pull request -->
+    <rect x="372" y="132" width="116" height="28" rx="14" fill="#fff" stroke="#1a7f37" stroke-opacity=".7"/>
+    <text x="430" y="151" font-size="13" font-weight="700" fill="#1f2328">Pull request</text>
+    <!-- merge -->
+    <circle cx="640" cy="100" r="24" fill="#c9a227"/>
+    <path d="M640 84l4.7 9.6 10.6 1.5-7.7 7.5 1.8 10.5-9.4-5-9.4 5 1.8-10.5-7.7-7.5 10.6-1.5z" fill="#fff"/>
+    <text x="640" y="68" font-size="14" font-weight="700" fill="#1f2328">Merge!</text>
+    <text x="640" y="150" font-size="12" fill="#57606a">tudo junto na main</text>
+  </g>
+</svg>
